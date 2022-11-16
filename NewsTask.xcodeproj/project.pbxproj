@@ -17,6 +17,9 @@
 		6DD160CD29234F8F0098CEDB /* ThirdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160CC29234F8F0098CEDB /* ThirdVC.swift */; };
 		6DD160D12923555D0098CEDB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D02923555D0098CEDB /* Constants.swift */; };
 		6DD160D3292355B60098CEDB /* NewsNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D2292355B60098CEDB /* NewsNetworkManager.swift */; };
+		6DD160D5292373820098CEDB /* Everything.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D4292373820098CEDB /* Everything.swift */; };
+		6DD160D8292384430098CEDB /* ResultsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D7292384430098CEDB /* ResultsTable.swift */; };
+		6DD160DE2924C48B0098CEDB /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160DD2924C48B0098CEDB /* CustomTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,9 @@
 		6DD160CC29234F8F0098CEDB /* ThirdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdVC.swift; sourceTree = "<group>"; };
 		6DD160D02923555D0098CEDB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6DD160D2292355B60098CEDB /* NewsNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsNetworkManager.swift; sourceTree = "<group>"; };
+		6DD160D4292373820098CEDB /* Everything.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Everything.swift; sourceTree = "<group>"; };
+		6DD160D7292384430098CEDB /* ResultsTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTable.swift; sourceTree = "<group>"; };
+		6DD160DD2924C48B0098CEDB /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +70,7 @@
 		6DD160AD292266DB0098CEDB /* NewsTask */ = {
 			isa = PBXGroup;
 			children = (
+				6DD160D6292383EC0098CEDB /* TableView */,
 				6DD160C5292348450098CEDB /* Utilities */,
 				6DD160C4292342640098CEDB /* Controller */,
 				6DD160C3292342580098CEDB /* View */,
@@ -79,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				6DD160D2292355B60098CEDB /* NewsNetworkManager.swift */,
+				6DD160D4292373820098CEDB /* Everything.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -109,6 +117,15 @@
 				6DD160D02923555D0098CEDB /* Constants.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		6DD160D6292383EC0098CEDB /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				6DD160D7292384430098CEDB /* ResultsTable.swift */,
+				6DD160DD2924C48B0098CEDB /* CustomTableViewCell.swift */,
+			);
+			path = TableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -183,12 +200,15 @@
 			files = (
 				6DD160CD29234F8F0098CEDB /* ThirdVC.swift in Sources */,
 				6DD160B3292266DB0098CEDB /* ViewController.swift in Sources */,
+				6DD160DE2924C48B0098CEDB /* CustomTableViewCell.swift in Sources */,
 				6DD160CB29234AF20098CEDB /* SecondVC.swift in Sources */,
 				6DD160C9292348A10098CEDB /* HomeVC.swift in Sources */,
 				6DD160AF292266DB0098CEDB /* AppDelegate.swift in Sources */,
+				6DD160D8292384430098CEDB /* ResultsTable.swift in Sources */,
 				6DD160D3292355B60098CEDB /* NewsNetworkManager.swift in Sources */,
 				6DD160B1292266DB0098CEDB /* SceneDelegate.swift in Sources */,
 				6DD160D12923555D0098CEDB /* Constants.swift in Sources */,
+				6DD160D5292373820098CEDB /* Everything.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +349,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NewsTask/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = News;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -358,6 +379,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NewsTask/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = News;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

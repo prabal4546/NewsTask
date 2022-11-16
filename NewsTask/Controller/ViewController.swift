@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     
     // MARK: - UI
     private var tabBarView:UITabBarController = {
-       let tabBarVC = UITabBarController()
+        let tabBarVC = UITabBarController()
         let vc1 = UINavigationController(rootViewController: HomeVC())
         let vc2 = UINavigationController(rootViewController: SecondVC())
         let vc3 = UINavigationController(rootViewController: ThirdVC())
@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         vc2.title = "Second"
         vc3.title = "Third"
         tabBarVC.setViewControllers([vc1,vc2,vc3], animated: false)
-                
+        
         tabBarVC.modalPresentationStyle = .fullScreen
         return tabBarVC
     }()
@@ -35,13 +35,13 @@ class ViewController: UIViewController {
     // MARK: - SET UP
     func setupTabBar(){
         present(tabBarView, animated: true)
-                guard let items = tabBarView.tabBar.items else{return}
-                let images = ["house","newspaper","gearshape"]
-                for i in 0..<items.count{
-                    items[i].image = UIImage(systemName: images[i])
-                }
+        guard let items = tabBarView.tabBar.items else{return}
+        let images = ["house","newspaper","gearshape"]
+        for i in 0..<items.count{
+            items[i].image = UIImage(systemName: images[i])
+        }
     }
-
-
+    
+    
 }
 

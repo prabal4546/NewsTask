@@ -7,11 +7,21 @@
 
 import Foundation
 struct NewsNetworkManager{
-    let newsURL =  "https://newsapi.org/v2/everything?q=bitcoin&apiKey=\(Constants.apiKey)"
-    
-    func fetchNews(url:String){
-        let url = URL(string: url)
-        let session = URLSession(configuration: .default)
-        
+    // what's @escaping
+    func fetchNews(url:String, completed: @escaping ([Article]) -> Void){
+        guard let url = URL(string: url) else{return}
+        let request = URLRequest(url: url)
+        // difference b/w response & error
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let safeData = data{
+                guard let decodedData = try? JSONDecoder().decode(Everything.self, from: safeData) else{
+                    return
+                }
+                completed(decodedData.articles!)
+            }else{
+                print(error)
+            }
+        }
+            task.resume()
     }
 }

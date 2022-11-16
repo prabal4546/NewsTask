@@ -8,6 +8,7 @@
 import UIKit
 
 class HomeVC: UIViewController {
+    var networkManager = NewsNetworkManager()
     
     // MARK: - UI
     private var searchField:UITextField = {
@@ -20,10 +21,17 @@ class HomeVC: UIViewController {
         return textfield
     }()
     
+    func setupView(){
+        view.addSubview(searchField)
+    }
+    
     func setupConstraints() {
+        let p20:CGFloat = 20
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            
+            searchField.topAnchor.constraint(equalTo: safeArea.topAnchor,constant: p20),
+            searchField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor,constant:40),
+            searchField.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor,constant: -40)
         ])
     }
     
@@ -33,9 +41,13 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         title = "Home"
+        setupView()
+        setupConstraints()
+        searchField.delegate = self
+        view.backgroundColor = .systemBackground
     }
-
-
+    
+    
 }
 
 extension HomeVC: UITextFieldDelegate{
@@ -50,12 +62,12 @@ extension HomeVC: UITextFieldDelegate{
             searchField.placeholder = "Type something"
             return false
         }
-
+        
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if let city = searchField.text {
-            // do something
-            
+        if let keyword = searchField.text {
+            self.navigationController?.pushViewController(ResultsTable(keyword: keyword), animated: true)
         }
+        searchField.text = ""
     }
 }

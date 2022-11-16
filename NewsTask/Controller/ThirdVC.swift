@@ -13,6 +13,8 @@ class ThirdVC: UIViewController {
         super.viewDidLoad()
         title = "Third" 
         // Do any additional setup after loading the view.
+        view.backgroundColor = .systemBackground
+
     }
     
 
