@@ -17,19 +17,21 @@ class ViewController: UIViewController {
         let vc2 = UINavigationController(rootViewController: SecondVC())
         let vc3 = UINavigationController(rootViewController: ThirdVC())
         
-        vc1.title = "Home"
+        vc1.title = "Search"
         vc2.title = "Map"
         vc3.title = "News"
         
         tabBarVC.setViewControllers([vc1,vc2,vc3], animated: false)
-        
         tabBarVC.modalPresentationStyle = .fullScreen
+        tabBarVC.tabBar.backgroundColor = .clear
         return tabBarVC
     }()
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        UITabBar.appearance().barTintColor = .systemBackground
+        tabBarView.tabBar.tintColor = .label
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -39,7 +41,7 @@ class ViewController: UIViewController {
     func setupTabBar(){
         present(tabBarView, animated: true)
         guard let items = tabBarView.tabBar.items else{return}
-        let images = ["house","map","newspaper"]
+        let images = ["magnifyingglass","map","newspaper"]
         for i in 0..<items.count{
             items[i].image = UIImage(systemName: images[i])
         }

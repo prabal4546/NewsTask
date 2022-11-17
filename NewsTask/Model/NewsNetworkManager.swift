@@ -10,7 +10,7 @@ import Foundation
 
 struct NewsNetworkManager{
     // what's @escaping
-    func fetchNews(url:String, completed: @escaping ([Article]) -> Void){
+    func fetch(url:String, completed: @escaping ([Article]) -> Void){
         guard let url = URL(string: url) else{return}
         let request = URLRequest(url: url)
         // difference b/w response & error

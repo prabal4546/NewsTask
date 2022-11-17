@@ -34,13 +34,13 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
 
-        networkManager.fetchNews(url: "https://newsapi.org/v2/everything?q=\(keyword)&apiKey=\(Constants.apiKey)") { data in
+        networkManager.fetch(url: "https://newsapi.org/v2/everything?q=\(keyword)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
-        networkManager.fetchNews(url: "https://newsapi.org/v2/top-headlines?country=de&category=\(keyword)&apiKey=4840391c15134375872168a829d71ee5") { data in
+        networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=de&category=\(keyword)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -67,8 +67,8 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else{return UITableViewCell()}
 
         let selectedArticle = articles[indexPath.row]
-        guard let url = URL(string:selectedArticle.urlToImage!) else {return UITableViewCell()}
-        cell.configure(imgURL: url, title: selectedArticle.title, souceName: selectedArticle.source?.name, description: selectedArticle.description!)
+        guard let url = URL(string:selectedArticle.urlToImage ?? "https://ibb.co/7CWHTJC") else {return UITableViewCell()}
+        cell.configure(imgURL: url, title: selectedArticle.title, souceName: selectedArticle.source?.name, description: selectedArticle.description ?? "")
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -82,9 +82,9 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
     }
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 150
+//    }
    
 }
 

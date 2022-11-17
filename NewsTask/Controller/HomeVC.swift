@@ -22,12 +22,15 @@ class HomeVC: UIViewController {
     }()
     private var categoryBtn:UIButton = {
         let button = UIButton()
-        button.backgroundColor = .red
         button.setTitle("Business", for: .normal)
+        button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 5
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.black.cgColor
         return button
     }()
-    private var stackView:UIStackView = {
+    private var categoryStack:UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
@@ -60,28 +63,30 @@ class HomeVC: UIViewController {
         NSLayoutConstraint.activate([
             categoryBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             categoryBtn.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-            
         ])
     }
     @objc func categoryTapped(){
         print("tapped")
         self.navigationController?.pushViewController(ResultsTableVC(keyword: "business"), animated: true)
     }
-    
+
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        title = "Home"
+        title = "Search"
         setupView()
         setupConstraints()
         searchField.delegate = self
         view.backgroundColor = .systemBackground
         categoryBtn.addTarget(self, action: #selector(categoryTapped), for: .touchUpInside)
         
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        searchField.text = ""
+    }
     
 }
 
@@ -103,6 +108,5 @@ extension HomeVC: UITextFieldDelegate{
         if let keyword = searchField.text {
             self.navigationController?.pushViewController(ResultsTableVC(keyword: keyword), animated: true)
         }
-        searchField.text = ""
     }
 }

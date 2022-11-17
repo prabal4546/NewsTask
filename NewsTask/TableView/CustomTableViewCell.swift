@@ -15,7 +15,7 @@ class CustomTableViewCell: UITableViewCell {
     // MARK: - UI
      let articleImageView:UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
          imageView.translatesAutoresizingMaskIntoConstraints = false
          imageView.layer.cornerRadius = 10
@@ -62,9 +62,6 @@ class CustomTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-//        myImageView.frame = CGRect(x: contentView.frame.size.width-imageSize, y: 3, width: imageSize, height: imageSize)
-//        myLabel.frame = CGRect(x: 2, y: 0, width: contentView.frame.size.width - 10 - imageSize, height: contentView.frame.size.height)
-        
     }
     
     func setupView(){
@@ -77,9 +74,11 @@ class CustomTableViewCell: UITableViewCell {
     func setupConstraints(){
 //        myImageView.image = nil
         NSLayoutConstraint.activate([
-            articleImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            articleImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
             articleImageView.widthAnchor.constraint(equalToConstant: 70),
-            articleImageView.heightAnchor.constraint(equalToConstant: 70)
+            articleImageView.heightAnchor.constraint(equalToConstant: 70),
+            articleImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            articleImageView.topAnchor.constraint(equalTo: topAnchor,constant: 5)
         ])
         NSLayoutConstraint.activate([
             headlineLabel.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor,constant: -5),
