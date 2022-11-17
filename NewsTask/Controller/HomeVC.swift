@@ -66,7 +66,7 @@ extension HomeVC: UITextFieldDelegate{
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let keyword = searchField.text {
-            self.navigationController?.pushViewController(ResultsTable(keyword: keyword), animated: true)
+            self.navigationController?.pushViewController(ResultsTableVC(keyword: keyword), animated: true)
         }
         searchField.text = ""
     }

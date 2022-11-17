@@ -17,10 +17,12 @@ class CustomTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     let myLabel:UILabel = {
     let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     // MARK: - ViewLifecycle
@@ -38,8 +40,8 @@ class CustomTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         let imageSize = contentView.frame.size.height - 6
-        myImageView.frame = CGRect(x: contentView.frame.size.width-imageSize, y: 3, width: imageSize, height: imageSize)
-        myLabel.frame = CGRect(x: 5, y: 0, width: contentView.frame.size.width - 10 - imageSize, height: contentView.frame.size.height)
+//        myImageView.frame = CGRect(x: contentView.frame.size.width-imageSize, y: 3, width: imageSize, height: imageSize)
+//        myLabel.frame = CGRect(x: 2, y: 0, width: contentView.frame.size.width - 10 - imageSize, height: contentView.frame.size.height)
         
     }
     
@@ -50,13 +52,17 @@ class CustomTableViewCell: UITableViewCell {
     func setupConstraints(){
 //        myImageView.image = nil
         NSLayoutConstraint.activate([
-            myImageView.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 5),
-            myImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 5),
-            myImageView.trailingAnchor.constraint(equalTo: myLabel.leadingAnchor,constant: 10)
+            myImageView.topAnchor.constraint(equalTo: topAnchor),
+            myImageView.rightAnchor.constraint(equalTo: rightAnchor),
+            myImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            myImageView.widthAnchor.constraint(equalTo:myImageView.heightAnchor)
         ])
         NSLayoutConstraint.activate([
-            myLabel.leadingAnchor.constraint(equalTo: myImageView.trailingAnchor,constant: 10),
-            myLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -5)
+            myLabel.leadingAnchor.constraint(equalTo: myImageView.trailingAnchor,constant: 5),
+            myLabel.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -5),
+            myLabel.topAnchor.constraint(equalTo: topAnchor,constant: 5),
+            myLabel.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -5),
+
         ])
     }
     
