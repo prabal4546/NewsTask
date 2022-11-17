@@ -6,6 +6,8 @@
 //
 
 import Foundation
+
+
 struct NewsNetworkManager{
     // what's @escaping
     func fetchNews(url:String, completed: @escaping ([Article]) -> Void){

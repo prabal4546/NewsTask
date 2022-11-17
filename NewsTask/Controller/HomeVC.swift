@@ -20,19 +20,52 @@ class HomeVC: UIViewController {
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
-    
+    private var categoryBtn:UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .red
+        button.setTitle("Business", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    private var stackView:UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 10
+        return stackView
+    }()
     func setupView(){
         view.addSubview(searchField)
+        //        view.addSubview(stackView)
+        view.addSubview(categoryBtn)
+        //        stackView.addArrangedSubview(categoryBtn)
     }
     
     func setupConstraints() {
         let p20:CGFloat = 20
+        let p40:CGFloat = 40
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             searchField.topAnchor.constraint(equalTo: safeArea.topAnchor,constant: p20),
-            searchField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor,constant:40),
-            searchField.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor,constant: -40)
+            searchField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor,constant:p40),
+            searchField.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor,constant: -p40)
         ])
+        //        NSLayoutConstraint.activate([
+        //            stackView.topAnchor.constraint(equalTo: searchField.bottomAnchor,constant: 10),
+        //            stackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: p40),
+        //            stackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor,constant: -p40),
+        //            stackView.heightAnchor.constraint(equalToConstant: 50)
+        //        ])
+        NSLayoutConstraint.activate([
+            categoryBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            categoryBtn.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            
+        ])
+    }
+    @objc func categoryTapped(){
+        print("tapped")
+        self.navigationController?.pushViewController(ResultsTableVC(keyword: "business"), animated: true)
     }
     
     
@@ -45,6 +78,8 @@ class HomeVC: UIViewController {
         setupConstraints()
         searchField.delegate = self
         view.backgroundColor = .systemBackground
+        categoryBtn.addTarget(self, action: #selector(categoryTapped), for: .touchUpInside)
+        
     }
     
     

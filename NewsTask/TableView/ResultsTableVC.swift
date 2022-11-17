@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import WebKit
+import SafariServices
 
 class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -40,6 +40,12 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.tableView.reloadData()
             }
         }
+        networkManager.fetchNews(url: "https://newsapi.org/v2/top-headlines?country=de&category=\(keyword)&apiKey=4840391c15134375872168a829d71ee5") { data in
+            self.articles = data
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -59,41 +65,27 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else{return UITableViewCell()}
-        cell.textLabel?.text = "\(articles[indexPath.row].title)"
-        cell.textLabel?.numberOfLines = 0
-//        cell.textLabel?.textAlignment = .center
-        guard let url = URL(string:articles[indexPath.row].urlToImage!) else {return UITableViewCell()}
-        cell.configure(imgURL: url, text: articles[indexPath.row].title)
+
+        let selectedArticle = articles[indexPath.row]
+        guard let url = URL(string:selectedArticle.urlToImage!) else {return UITableViewCell()}
+        cell.configure(imgURL: url, title: selectedArticle.title, souceName: selectedArticle.source?.name, description: selectedArticle.description!)
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let cell = tableView.cellForRow(at: indexPath) else{return}
         let selectedArticle = articles[indexPath.row]
         guard let urlToArticle = selectedArticle.url else{return}
-        UIApplication.shared.open(URL(string: urlToArticle)!)
+        
+
+        let vc = SFSafariViewController(url: URL(string:urlToArticle)!)
+        present(vc, animated: true)
         
         
     }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
-    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-           
-           guard let url = navigationAction.request.url else{
-               decisionHandler(.allow)
-               return
-           }
-           
-           let urlString = url.absoluteString.lowercased()
-           if urlString.starts(with: "http://") || urlString.starts(with: "https://") {
-               decisionHandler(.cancel)
-               UIApplication.shared.open(url, options: [:])
-           } else {
-               decisionHandler(.allow)
-           }
-           
-       }
+   
 }
 
 

@@ -11,7 +11,7 @@ class ThirdVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Third" 
+        title = "News" 
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemBackground
 
