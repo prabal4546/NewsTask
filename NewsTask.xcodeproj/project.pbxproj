@@ -13,8 +13,8 @@
 		6DD160B8292266DC0098CEDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DD160B7292266DC0098CEDB /* Assets.xcassets */; };
 		6DD160BB292266DC0098CEDB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DD160B9292266DC0098CEDB /* LaunchScreen.storyboard */; };
 		6DD160C9292348A10098CEDB /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160C8292348A10098CEDB /* HomeVC.swift */; };
-		6DD160CB29234AF20098CEDB /* SecondVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160CA29234AF20098CEDB /* SecondVC.swift */; };
-		6DD160CD29234F8F0098CEDB /* ThirdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160CC29234F8F0098CEDB /* ThirdVC.swift */; };
+		6DD160CB29234AF20098CEDB /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160CA29234AF20098CEDB /* MapVC.swift */; };
+		6DD160CD29234F8F0098CEDB /* HeadlinesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160CC29234F8F0098CEDB /* HeadlinesVC.swift */; };
 		6DD160D12923555D0098CEDB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D02923555D0098CEDB /* Constants.swift */; };
 		6DD160D3292355B60098CEDB /* NewsNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D2292355B60098CEDB /* NewsNetworkManager.swift */; };
 		6DD160D5292373820098CEDB /* Everything.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D4292373820098CEDB /* Everything.swift */; };
@@ -31,8 +31,8 @@
 		6DD160BA292266DC0098CEDB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6DD160BC292266DC0098CEDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6DD160C8292348A10098CEDB /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
-		6DD160CA29234AF20098CEDB /* SecondVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondVC.swift; sourceTree = "<group>"; };
-		6DD160CC29234F8F0098CEDB /* ThirdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdVC.swift; sourceTree = "<group>"; };
+		6DD160CA29234AF20098CEDB /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
+		6DD160CC29234F8F0098CEDB /* HeadlinesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesVC.swift; sourceTree = "<group>"; };
 		6DD160D02923555D0098CEDB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6DD160D2292355B60098CEDB /* NewsNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsNetworkManager.swift; sourceTree = "<group>"; };
 		6DD160D4292373820098CEDB /* Everything.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Everything.swift; sourceTree = "<group>"; };
@@ -70,7 +70,6 @@
 		6DD160AD292266DB0098CEDB /* NewsTask */ = {
 			isa = PBXGroup;
 			children = (
-				6DD160D6292383EC0098CEDB /* TableView */,
 				6DD160C5292348450098CEDB /* Utilities */,
 				6DD160C4292342640098CEDB /* Controller */,
 				6DD160C3292342580098CEDB /* View */,
@@ -78,6 +77,8 @@
 				6DD160B7292266DC0098CEDB /* Assets.xcassets */,
 				6DD160B9292266DC0098CEDB /* LaunchScreen.storyboard */,
 				6DD160BC292266DC0098CEDB /* Info.plist */,
+				6DD160AE292266DB0098CEDB /* AppDelegate.swift */,
+				6DD160B0292266DB0098CEDB /* SceneDelegate.swift */,
 			);
 			path = NewsTask;
 			sourceTree = "<group>";
@@ -101,10 +102,11 @@
 		6DD160C4292342640098CEDB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				6DD160D6292383EC0098CEDB /* TableView */,
 				6DD160B2292266DB0098CEDB /* ViewController.swift */,
 				6DD160C8292348A10098CEDB /* HomeVC.swift */,
-				6DD160CA29234AF20098CEDB /* SecondVC.swift */,
-				6DD160CC29234F8F0098CEDB /* ThirdVC.swift */,
+				6DD160CA29234AF20098CEDB /* MapVC.swift */,
+				6DD160CC29234F8F0098CEDB /* HeadlinesVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -112,8 +114,6 @@
 		6DD160C5292348450098CEDB /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				6DD160AE292266DB0098CEDB /* AppDelegate.swift */,
-				6DD160B0292266DB0098CEDB /* SceneDelegate.swift */,
 				6DD160D02923555D0098CEDB /* Constants.swift */,
 			);
 			path = Utilities;
@@ -198,10 +198,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DD160CD29234F8F0098CEDB /* ThirdVC.swift in Sources */,
+				6DD160CD29234F8F0098CEDB /* HeadlinesVC.swift in Sources */,
 				6DD160B3292266DB0098CEDB /* ViewController.swift in Sources */,
 				6DD160DE2924C48B0098CEDB /* CustomTableViewCell.swift in Sources */,
-				6DD160CB29234AF20098CEDB /* SecondVC.swift in Sources */,
+				6DD160CB29234AF20098CEDB /* MapVC.swift in Sources */,
 				6DD160C9292348A10098CEDB /* HomeVC.swift in Sources */,
 				6DD160AF292266DB0098CEDB /* AppDelegate.swift in Sources */,
 				6DD160D8292384430098CEDB /* ResultsTableVC.swift in Sources */,

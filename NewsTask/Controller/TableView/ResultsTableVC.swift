@@ -33,8 +33,9 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
-
-        networkManager.fetch(url: "https://newsapi.org/v2/everything?q=\(keyword)&apiKey=\(Constants.apiKey)") { data in
+        
+        // FIX ME: -
+        networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -49,7 +50,6 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        //why??
         tableView.frame = view.bounds
     }
     
@@ -82,9 +82,9 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
     }
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 150
-//    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200
+    }
    
 }
 

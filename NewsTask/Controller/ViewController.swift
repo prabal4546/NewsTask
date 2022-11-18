@@ -14,8 +14,8 @@ class ViewController: UIViewController {
         let tabBarVC = UITabBarController()
         
         let vc1 = UINavigationController(rootViewController: HomeVC())
-        let vc2 = UINavigationController(rootViewController: SecondVC())
-        let vc3 = UINavigationController(rootViewController: ThirdVC())
+        let vc2 = UINavigationController(rootViewController: MapVC())
+        let vc3 = UINavigationController(rootViewController: HeadlinesVC())
         
         vc1.title = "Search"
         vc2.title = "Map"

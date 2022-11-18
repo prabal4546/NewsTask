@@ -9,42 +9,42 @@ import UIKit
 
 class CustomTableViewCell: UITableViewCell {
     var imageURL:String?
-
+    
     static let identifier = "CustomTableViewCell"
     
     // MARK: - UI
-     let articleImageView:UIImageView = {
+    let articleImageView:UIImageView = {
         let imageView = UIImageView()
-         imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-         imageView.translatesAutoresizingMaskIntoConstraints = false
-         imageView.layer.cornerRadius = 10
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 10
         return imageView
     }()
     let headlineLabel:UILabel = {
-    let label = UILabel()
+        let label = UILabel()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         return label
     }()
     let sourceName:UILabel = {
-    let label = UILabel()
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.textColor = .gray
-        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.font = UIFont.preferredFont(forTextStyle: .caption2)
         return label
     }()
     let descLabel:UILabel = {
-    let label = UILabel()
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 4
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
         return label
     }()
     let cellView:UIView = {
-       let myView = UIView()
+        let myView = UIView()
         
         return myView
     }()
@@ -68,36 +68,37 @@ class CustomTableViewCell: UITableViewCell {
         addSubview(articleImageView)
         addSubview(headlineLabel)
         addSubview(sourceName)
-//        addSubview(descLabel)
+        addSubview(descLabel)
         setupConstraints()
     }
     func setupConstraints(){
-//        myImageView.image = nil
+        //        myImageView.image = nil
         NSLayoutConstraint.activate([
             articleImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
-            articleImageView.widthAnchor.constraint(equalToConstant: 70),
             articleImageView.heightAnchor.constraint(equalToConstant: 70),
-            articleImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            articleImageView.widthAnchor.constraint(equalTo: articleImageView.heightAnchor,multiplier: 16/9),
+//            articleImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
             articleImageView.topAnchor.constraint(equalTo: topAnchor,constant: 5)
         ])
         NSLayoutConstraint.activate([
             headlineLabel.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor,constant: -5),
             headlineLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 5),
             headlineLabel.topAnchor.constraint(equalTo: topAnchor,constant: 5)
-
+            
         ])
-//        NSLayoutConstraint.activate([
-//            descLabel.trailingAnchor.constraint(equalTo: articleImageView.trailingAnchor),
-////            descLabel.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor),
-//            descLabel.leadingAnchor.constraint(equalTo: leadingAnchor)
-////            descLabel.bottomAnchor.constraint(equalTo: sourceName.topAnchor)
-//        ])
+        
         NSLayoutConstraint.activate([
-            sourceName.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor,constant: 2),
-            sourceName.bottomAnchor.constraint(equalTo: bottomAnchor),
-            sourceName.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 5),
-            sourceName.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor)
+            descLabel.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor,constant: 2),
+            descLabel.bottomAnchor.constraint(equalTo: sourceName.topAnchor),
+            descLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 5),
+            descLabel.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor)
         ])
+        NSLayoutConstraint.activate([
+//                    sourceName.topAnchor.constraint(equalTo: descLabel.bottomAnchor,constant: 2),
+                    sourceName.bottomAnchor.constraint(equalTo: bottomAnchor),
+                    sourceName.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 5),
+                    sourceName.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor)
+                ])
     }
     // MARK: - Config
     public func configure(imgURL:URL,title:String, souceName:String?, description:String){
@@ -106,7 +107,7 @@ class CustomTableViewCell: UITableViewCell {
             sourceName.text = source
             print(source)
         }
-            else{
+        else{
             sourceName.text = "Not working"
         }
         descLabel.text = description
@@ -123,11 +124,6 @@ class CustomTableViewCell: UITableViewCell {
     func load(from url: URL, completion: @escaping (Data)->()) {
         DispatchQueue.global().async { [weak self] in
             if let data = try? Data(contentsOf: url) {
-//                if let image = UIImage(data: data) {
-//                    DispatchQueue.main.async {
-//                        self?.image = image
-//                    }
-//                }
                 completion(data)
             }
         }

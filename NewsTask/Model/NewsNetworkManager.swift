@@ -7,6 +7,7 @@
 
 import Foundation
 
+// TODO - Move to VM
 
 struct NewsNetworkManager{
     // what's @escaping

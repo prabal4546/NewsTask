@@ -38,11 +38,21 @@ class HomeVC: UIViewController {
         stackView.spacing = 10
         return stackView
     }()
+    private var selectCategoryLabel:UILabel = {
+        let label = UILabel()
+        label.text = "Select a category"
+        return label
+    }()
+    private var categoryTableView:UITableView = {
+       let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return tableView
+    }()
     func setupView(){
         view.addSubview(searchField)
         //        view.addSubview(stackView)
         view.addSubview(categoryBtn)
-        //        stackView.addArrangedSubview(categoryBtn)
     }
     
     func setupConstraints() {
@@ -60,6 +70,7 @@ class HomeVC: UIViewController {
         //            stackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor,constant: -p40),
         //            stackView.heightAnchor.constraint(equalToConstant: 50)
         //        ])
+
         NSLayoutConstraint.activate([
             categoryBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             categoryBtn.centerYAnchor.constraint(equalTo: view.centerYAnchor)
