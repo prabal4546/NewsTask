@@ -10,7 +10,8 @@ import UIKit
 class HomeVC: UIViewController {
     var networkManager = NewsNetworkManager()
     var selectedCategory = ""
-    
+    let categoriesData = ["business","entertainment","general","health","science","sports","technology"]
+
     // MARK: - UI
     private var searchField:UITextField = {
         let textfield = UITextField()
@@ -21,17 +22,16 @@ class HomeVC: UIViewController {
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
-    private var categoryBtn:UIButton = {
+    private var businessBtn:UIButton = {
         let button = UIButton()
         button.setTitle("Business", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.setTitleColor(.green, for:.highlighted)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.black.cgColor
+
         return button
     }()
+
     private var categoryStack:UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -51,11 +51,7 @@ class HomeVC: UIViewController {
         
         return tableView
     }()
-    func setupView(){
-        view.addSubview(searchField)
-        //        view.addSubview(stackView)
-        view.addSubview(categoryBtn)
-    }
+
     
     func setupConstraints() {
         let p20:CGFloat = 20
@@ -73,10 +69,26 @@ class HomeVC: UIViewController {
         //            stackView.heightAnchor.constraint(equalToConstant: 50)
         //        ])
 
+//        NSLayoutConstraint.activate([
+//            businessBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            businessBtn.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+//        ])
+        
         NSLayoutConstraint.activate([
-            categoryBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            categoryBtn.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            categoryTableView.topAnchor.constraint(equalTo: searchField.bottomAnchor,constant: p40),
+            categoryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: p40),
+            categoryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -p40),
+            categoryTableView.heightAnchor.constraint(equalToConstant: 200)
         ])
+    }
+    func setupView(){
+        view.addSubview(searchField)
+//        view.addSubview(businessBtn)
+        view.addSubview(categoryTableView)
+        searchField.delegate = self
+        businessBtn.addTarget(self, action: #selector(categoryTapped), for: .touchUpInside)
+
+
     }
     @objc func categoryTapped(){
         print("tapped")
@@ -94,11 +106,12 @@ class HomeVC: UIViewController {
         title = "Search"
         setupView()
         setupConstraints()
-        searchField.delegate = self
         view.backgroundColor = .systemBackground
-        categoryBtn.addTarget(self, action: #selector(categoryTapped), for: .touchUpInside)
-        
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        categoryTableView.delegate = self
+        categoryTableView.dataSource = self
+        categoryTableView.register(UITableViewCell.self, forCellReuseIdentifier: "categories-cell")
     }
     override func viewWillAppear(_ animated: Bool) {
         searchField.text = ""
@@ -122,8 +135,34 @@ extension HomeVC: UITextFieldDelegate{
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let keyword = searchField.text {
-//            self.navigationController?.pushViewController(ResultsTableVC(keyword: keyword), animated: true)
-            self.navigationController?.pushViewController(SourcesViewController(category: selectedCategory, keywordFromSearch: keyword), animated: true)
+            if selectedCategory == ""{
+                let alert = UIAlertController(title: "No Category selected", message: "Please select a category before proceeding with search.", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+
+            }else{
+                self.navigationController?.pushViewController(SourcesViewController(category: selectedCategory, keywordFromSearch: keyword), animated: true)
+
+            }
         }
+    }
+}
+extension HomeVC:UITableViewDelegate,UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return categoriesData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "categories-cell", for: indexPath)
+        cell.textLabel?.text = categoriesData[indexPath.row]
+        cell.textLabel?.textColor = .black
+        return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedCategory = categoriesData[indexPath.row]
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Select a Category"
     }
 }

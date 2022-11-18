@@ -35,7 +35,7 @@ class SourcesViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "source-cell")
-        title = category
+        title = "\(keywordFromSearch) in \(category)"
     
         networkManager.fetchSources(url: "https://newsapi.org/v2/top-headlines/sources?&apiKey=\(Constants.apiKey)") { [self] data in
             self.sources = data

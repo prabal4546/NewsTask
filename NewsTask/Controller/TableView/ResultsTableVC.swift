@@ -37,7 +37,7 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         title = "Results for \(keyword)"
         
         // FIX ME: -
-        networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword)&apiKey=\(Constants.apiKey)") { data in
+        networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
             DispatchQueue.main.async {
                 self.tableView.reloadData()
