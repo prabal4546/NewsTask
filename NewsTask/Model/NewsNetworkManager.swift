@@ -27,4 +27,20 @@ struct NewsNetworkManager{
         }
             task.resume()
     }
+    func fetchSources(url:String, completed: @escaping ([Source]) -> Void){
+        guard let url = URL(string: url) else{return}
+        let request = URLRequest(url: url)
+        // difference b/w response & error
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let safeData = data{
+                guard let decodedData = try? JSONDecoder().decode(Sources.self, from: safeData) else{
+                    return
+                }
+                completed(decodedData.sources)
+            }else{
+                print(error)
+            }
+        }
+            task.resume()
+    }
 }

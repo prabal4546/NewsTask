@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D4BD16C2927580C00ADBAC4 /* Sources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BD16B2927580C00ADBAC4 /* Sources.swift */; };
+		6D4BD1702927594200ADBAC4 /* SourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BD16F2927594200ADBAC4 /* SourcesViewController.swift */; };
+		6D4BD172292761A100ADBAC4 /* SourceResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BD171292761A100ADBAC4 /* SourceResultsTableViewController.swift */; };
+		6D4BD1742927696200ADBAC4 /* SourcesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BD1732927696200ADBAC4 /* SourcesTableViewCell.swift */; };
 		6DD160AF292266DB0098CEDB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160AE292266DB0098CEDB /* AppDelegate.swift */; };
 		6DD160B1292266DB0098CEDB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160B0292266DB0098CEDB /* SceneDelegate.swift */; };
 		6DD160B3292266DB0098CEDB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160B2292266DB0098CEDB /* ViewController.swift */; };
@@ -23,6 +27,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6D4BD16B2927580C00ADBAC4 /* Sources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources.swift; sourceTree = "<group>"; };
+		6D4BD16F2927594200ADBAC4 /* SourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcesViewController.swift; sourceTree = "<group>"; };
+		6D4BD171292761A100ADBAC4 /* SourceResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceResultsTableViewController.swift; sourceTree = "<group>"; };
+		6D4BD1732927696200ADBAC4 /* SourcesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcesTableViewCell.swift; sourceTree = "<group>"; };
 		6DD160AB292266DB0098CEDB /* NewsTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DD160AE292266DB0098CEDB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6DD160B0292266DB0098CEDB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +96,7 @@
 			children = (
 				6DD160D2292355B60098CEDB /* NewsNetworkManager.swift */,
 				6DD160D4292373820098CEDB /* Everything.swift */,
+				6D4BD16B2927580C00ADBAC4 /* Sources.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -124,6 +133,9 @@
 			children = (
 				6DD160D7292384430098CEDB /* ResultsTableVC.swift */,
 				6DD160DD2924C48B0098CEDB /* CustomTableViewCell.swift */,
+				6D4BD16F2927594200ADBAC4 /* SourcesViewController.swift */,
+				6D4BD171292761A100ADBAC4 /* SourceResultsTableViewController.swift */,
+				6D4BD1732927696200ADBAC4 /* SourcesTableViewCell.swift */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -199,8 +211,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DD160CD29234F8F0098CEDB /* HeadlinesVC.swift in Sources */,
+				6D4BD172292761A100ADBAC4 /* SourceResultsTableViewController.swift in Sources */,
 				6DD160B3292266DB0098CEDB /* ViewController.swift in Sources */,
 				6DD160DE2924C48B0098CEDB /* CustomTableViewCell.swift in Sources */,
+				6D4BD16C2927580C00ADBAC4 /* Sources.swift in Sources */,
+				6D4BD1702927594200ADBAC4 /* SourcesViewController.swift in Sources */,
 				6DD160CB29234AF20098CEDB /* MapVC.swift in Sources */,
 				6DD160C9292348A10098CEDB /* HomeVC.swift in Sources */,
 				6DD160AF292266DB0098CEDB /* AppDelegate.swift in Sources */,
@@ -209,6 +224,7 @@
 				6DD160B1292266DB0098CEDB /* SceneDelegate.swift in Sources */,
 				6DD160D12923555D0098CEDB /* Constants.swift in Sources */,
 				6DD160D5292373820098CEDB /* Everything.swift in Sources */,
+				6D4BD1742927696200ADBAC4 /* SourcesTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,21 +1,21 @@
 //
-//  ResultsTable.swift
+//  SourceResultsTableViewController.swift
 //  NewsTask
 //
-//  Created by Prabaljit Walia on 15/11/22.
+//  Created by Prabaljit Walia on 18/11/22.
 //
 
 import UIKit
 import SafariServices
 
-class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SourceResultsTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     var keyword:String
-    var sourceName:String?
+    var source:String
     var networkManager = NewsNetworkManager()
     var articles:[Article] = [Article]()
-    init(keyword: String) {
-        
+    init(keyword: String,source:String) {
+        self.source = source
         self.keyword = keyword
         super.init(nibName: nil, bundle: nil)
     }
@@ -37,13 +37,7 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         title = "Results for \(keyword)"
         
         // FIX ME: -
-        networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword)&apiKey=\(Constants.apiKey)") { data in
-            self.articles = data
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-        networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=de&category=\(keyword)&apiKey=\(Constants.apiKey)") { data in
+        networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword)&sources=\(source)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -89,5 +83,3 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
    
 }
-
-

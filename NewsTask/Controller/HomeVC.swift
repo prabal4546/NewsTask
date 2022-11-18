@@ -9,6 +9,7 @@ import UIKit
 
 class HomeVC: UIViewController {
     var networkManager = NewsNetworkManager()
+    var selectedCategory = ""
     
     // MARK: - UI
     private var searchField:UITextField = {
@@ -24,6 +25,7 @@ class HomeVC: UIViewController {
         let button = UIButton()
         button.setTitle("Business", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.green, for:.highlighted)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 1
@@ -78,7 +80,10 @@ class HomeVC: UIViewController {
     }
     @objc func categoryTapped(){
         print("tapped")
-        self.navigationController?.pushViewController(ResultsTableVC(keyword: "business"), animated: true)
+        selectedCategory = "business"
+//        self.navigationController?.pushViewController(ResultsTableVC(keyword: "business"), animated: true)
+//        self.navigationController?.pushViewController(SourcesViewController(keyword: "business"), animated: true)
+
     }
 
     
@@ -117,7 +122,8 @@ extension HomeVC: UITextFieldDelegate{
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let keyword = searchField.text {
-            self.navigationController?.pushViewController(ResultsTableVC(keyword: keyword), animated: true)
+//            self.navigationController?.pushViewController(ResultsTableVC(keyword: keyword), animated: true)
+            self.navigationController?.pushViewController(SourcesViewController(category: selectedCategory, keywordFromSearch: keyword), animated: true)
         }
     }
 }
