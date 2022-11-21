@@ -16,7 +16,33 @@ class HeadlinesVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var articles: [Article] = [Article]()
 
     let tableView = UITableView()
-    
+    var pageNum = 1
+    @objc func nextTapped(){
+        pageNum += 1
+        networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&pageSize=10&page=\(pageNum)&apiKey=\(Constants.apiKey)") { data in
+            self.articles = data
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    @objc func prevTapped(){
+        pageNum -= 1
+        if pageNum == 0{
+            print("1st page")
+            let alert = UIAlertController(title: "Page 1", message: "You're on 1st page.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else{
+            networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&pageSize=10&page=\(pageNum)&apiKey=\(Constants.apiKey)") { data in
+                self.articles = data
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,9 +52,11 @@ class HeadlinesVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Headlines"
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Prev", style: .plain, target: self, action: #selector(prevTapped))
+
         // FIX ME: -
-        networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&apiKey=\(Constants.apiKey)") { data in
+        networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&pageSize=10&page=\(pageNum)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -72,7 +100,9 @@ class HeadlinesVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         
     }
-    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+    }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200
     }

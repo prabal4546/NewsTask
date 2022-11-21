@@ -15,7 +15,6 @@ class SourcesViewController: UIViewController {
     var sources:[Source] = [Source]()
     var keywordFromSearch:String
     init(category: String, keywordFromSearch:String) {
-
         self.category = category
         self.keywordFromSearch = keywordFromSearch
         super.init(nibName: nil, bundle: nil)
@@ -28,15 +27,22 @@ class SourcesViewController: UIViewController {
 
     
     let tableView = UITableView()
+    
+    @objc func skipTapped(){
+        self.navigationController?.pushViewController(ResultsTableVC(keyword: keywordFromSearch), animated: true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "source-cell")
+        tableView.register(SourcesTableViewCell.self, forCellReuseIdentifier: "source-cell")
         title = "\(keywordFromSearch) in \(category)"
-    
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(skipTapped))
+
+        
         networkManager.fetchSources(url: "https://newsapi.org/v2/top-headlines/sources?&apiKey=\(Constants.apiKey)") { [self] data in
             self.sources = data
             print(sources)
@@ -44,7 +50,6 @@ class SourcesViewController: UIViewController {
                 self.tableView.reloadData()
             }
         }
-        
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -66,10 +71,12 @@ extension SourcesViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         let cell = tableView.dequeueReusableCell(withIdentifier: "source-cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "source-cell", for: indexPath) as? SourcesTableViewCell else{return UITableViewCell()}
 
         let selectedSource = sources[indexPath.row]
-        cell.textLabel?.text = selectedSource.name
+        cell.configure(title: selectedSource.name!, description: selectedSource.description!)
+
+//        cell.textLabel?.text = selectedSource.name
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

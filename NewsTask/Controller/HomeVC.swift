@@ -11,6 +11,8 @@ class HomeVC: UIViewController {
     var networkManager = NewsNetworkManager()
     var selectedCategory = ""
     let categoriesData = ["business","entertainment","general","health","science","sports","technology"]
+    
+    let debouncer = Debouncer(timeInterval: 0.3)
 
     // MARK: - UI
     private var searchField:UITextField = {
@@ -22,11 +24,14 @@ class HomeVC: UIViewController {
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
-    private var businessBtn:UIButton = {
+    private var showDropDownBtn:UIButton = {
         let button = UIButton()
-        button.setTitle("Business", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitleColor(.green, for:.highlighted)
+        button.setTitle("Drop", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 10
+        button.backgroundColor = .lightGray
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
@@ -69,10 +74,14 @@ class HomeVC: UIViewController {
         //            stackView.heightAnchor.constraint(equalToConstant: 50)
         //        ])
 
-//        NSLayoutConstraint.activate([
-//            businessBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            businessBtn.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-//        ])
+        NSLayoutConstraint.activate([
+//            showDropDownBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            showDropDownBtn.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            showDropDownBtn.bottomAnchor.constraint(equalTo: categoryTableView.topAnchor),
+            showDropDownBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: p40),
+            showDropDownBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -p40),
+            showDropDownBtn.heightAnchor.constraint(equalToConstant: 20)
+        ])
         
         NSLayoutConstraint.activate([
             categoryTableView.topAnchor.constraint(equalTo: searchField.bottomAnchor,constant: p40),
@@ -80,22 +89,22 @@ class HomeVC: UIViewController {
             categoryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -p40),
             categoryTableView.heightAnchor.constraint(equalToConstant: 200)
         ])
+        
     }
     func setupView(){
         view.addSubview(searchField)
-//        view.addSubview(businessBtn)
         view.addSubview(categoryTableView)
+        view.addSubview(showDropDownBtn)
         searchField.delegate = self
-        businessBtn.addTarget(self, action: #selector(categoryTapped), for: .touchUpInside)
-
-
+        showDropDownBtn.addTarget(self, action: #selector(categoryTapped), for: .touchUpInside)
     }
     @objc func categoryTapped(){
         print("tapped")
-        selectedCategory = "business"
-//        self.navigationController?.pushViewController(ResultsTableVC(keyword: "business"), animated: true)
-//        self.navigationController?.pushViewController(SourcesViewController(keyword: "business"), animated: true)
-
+        if categoryTableView.isHidden {
+                   animate(toogle: true, type: showDropDownBtn)
+              } else {
+                   animate(toogle: false, type: showDropDownBtn)
+              }
     }
 
     
@@ -111,10 +120,13 @@ class HomeVC: UIViewController {
         
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
+        categoryTableView.layer.cornerRadius = 5
         categoryTableView.register(UITableViewCell.self, forCellReuseIdentifier: "categories-cell")
     }
     override func viewWillAppear(_ animated: Bool) {
         searchField.text = ""
+        selectedCategory = ""
+        categoryTableView.reloadData()
     }
     
 }
@@ -141,11 +153,15 @@ extension HomeVC: UITextFieldDelegate{
                 self.present(alert, animated: true, completion: nil)
 
             }else{
-                self.navigationController?.pushViewController(SourcesViewController(category: selectedCategory, keywordFromSearch: keyword), animated: true)
+
+                self.navigationController?.pushViewController(SourcesViewController(category: self.selectedCategory, keywordFromSearch: keyword), animated: true)
+
 
             }
         }
     }
+    
+    
 }
 extension HomeVC:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -160,9 +176,66 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedCategory = categoriesData[indexPath.row]
+        showDropDownBtn.setTitle(selectedCategory, for: .normal)
+        animate(toogle: false, type: showDropDownBtn)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Select a Category"
+    }
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return "End of Categories"
+    }
+    
+}
+
+extension HomeVC{
+    func animate(toogle: Bool, type: UIButton) {
+             
+           if type == showDropDownBtn {
+                 
+               if toogle {
+                   UIView.animate(withDuration: 0.3) {
+                       self.categoryTableView.isHidden = false
+                   }
+               } else {
+                   UIView.animate(withDuration: 0.3) {
+                       self.categoryTableView.isHidden = true
+                   }
+               }
+           } else {
+               if toogle {
+                   UIView.animate(withDuration: 0.3) {
+                       self.categoryTableView.isHidden = false
+                   }
+               } else {
+                   UIView.animate(withDuration: 0.3) {
+                       self.categoryTableView.isHidden = true
+                   }
+               }
+           }
+    }
+    func setupSearchFieldListeners(){
+//        let publisher = NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: searchField)
+//        publisher.map{
+//            (
+//                $0.object as! UITextField
+//            ).text
+//        }.debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+//        .sink { (str) in
+//            print(str ?? "")
+//        }
+        let textFieldPublisher = NotificationCenter.default
+                    .publisher(for: UITextField.textDidChangeNotification, object: searchField)
+                    .map( {
+                        ($0.object as? UITextField)?.text
+                    })
+                
+                textFieldPublisher
+                    .receive(on: RunLoop.main)
+                    .sink(receiveValue: { [weak self] value in
+                        print("UITextField.text changed to: \(value)")
+                    })
+
     }
 }

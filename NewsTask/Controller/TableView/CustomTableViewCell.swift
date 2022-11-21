@@ -53,8 +53,15 @@ class CustomTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .systemBackground
         setupView()
+        backgroundColor = .clear
+        layer.masksToBounds = false
+        layer.shadowOpacity = 0.23
+        layer.shadowRadius = 4
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowColor = UIColor.black.cgColor
         
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -77,7 +84,7 @@ class CustomTableViewCell: UITableViewCell {
             articleImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
             articleImageView.heightAnchor.constraint(equalToConstant: 70),
             articleImageView.widthAnchor.constraint(equalTo: articleImageView.heightAnchor,multiplier: 16/9),
-//            articleImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            //            articleImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
             articleImageView.topAnchor.constraint(equalTo: topAnchor,constant: 5)
         ])
         NSLayoutConstraint.activate([
@@ -94,11 +101,10 @@ class CustomTableViewCell: UITableViewCell {
             descLabel.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor)
         ])
         NSLayoutConstraint.activate([
-//                    sourceName.topAnchor.constraint(equalTo: descLabel.bottomAnchor,constant: 2),
-                    sourceName.bottomAnchor.constraint(equalTo: bottomAnchor),
-                    sourceName.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 5),
-                    sourceName.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor)
-                ])
+            sourceName.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            sourceName.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 5),
+            sourceName.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor)
+        ])
     }
     // MARK: - Config
     public func configure(imgURL:URL,title:String, souceName:String?, description:String){
@@ -112,7 +118,7 @@ class CustomTableViewCell: UITableViewCell {
         }
         descLabel.text = description
         
-        
+            // FIX-ME: COCAPODS
         load(from: imgURL) { data in
             guard let cellImage = UIImage(data: data) else{return}
             DispatchQueue.main.async {
@@ -120,7 +126,6 @@ class CustomTableViewCell: UITableViewCell {
             }
         }
     }
-    // WHY
     func load(from url: URL, completion: @escaping (Data)->()) {
         DispatchQueue.global().async { [weak self] in
             if let data = try? Data(contentsOf: url) {

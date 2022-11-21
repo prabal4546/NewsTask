@@ -35,10 +35,12 @@ struct Article:Codable{
 struct Source:Codable{
     let id:String?
     let name:String?
+    let description:String?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decodeIfPresent(String.self, forKey: .id)
         self.name = try container.decodeIfPresent(String.self, forKey: .name)
+        self.description = try container.decodeIfPresent(String.self, forKey: .description)
     }
 }

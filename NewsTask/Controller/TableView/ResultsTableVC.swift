@@ -19,12 +19,10 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.keyword = keyword
         super.init(nibName: nil, bundle: nil)
     }
-    // why?
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-
     
     let tableView = UITableView()
     override func viewDidLoad() {
@@ -35,7 +33,7 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
         title = "Results for \(keyword)"
-        
+
         // FIX ME: -
         networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
@@ -77,7 +75,6 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedArticle = articles[indexPath.row]
         guard let urlToArticle = selectedArticle.url else{return}
-        
 
         let vc = SFSafariViewController(url: URL(string:urlToArticle)!)
         present(vc, animated: true)
@@ -87,7 +84,17 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200
     }
-   
+
+}
+
+extension ResultsTableVC:UIScrollViewDelegate{
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        if position > tableView.contentSize.height-100{
+            //fetch more data
+            print("fetch more")
+        }
+    }
 }
 
 

@@ -9,7 +9,7 @@ import UIKit
 
 class SourcesTableViewCell: UITableViewCell {
     
-    static let identifier = "CustomTableViewCell"
+    static let identifier = "source-cell"
     
     // MARK: - UI
     let headlineLabel:UILabel = {
@@ -27,6 +27,7 @@ class SourcesTableViewCell: UITableViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         return label
     }()
+    
     let cellView:UIView = {
         let myView = UIView()
         
@@ -55,7 +56,7 @@ class SourcesTableViewCell: UITableViewCell {
     }
     func setupConstraints(){
         NSLayoutConstraint.activate([
-            headlineLabel.trailingAnchor.constraint(equalTo: leadingAnchor,constant: -5),
+            headlineLabel.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -5),
             headlineLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 5),
             headlineLabel.topAnchor.constraint(equalTo: topAnchor,constant: 5)
             
@@ -63,7 +64,7 @@ class SourcesTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             descLabel.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor,constant: 2),
-            descLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            descLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
             descLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 5),
             descLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
