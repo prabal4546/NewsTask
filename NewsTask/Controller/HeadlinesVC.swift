@@ -10,7 +10,7 @@ import SafariServices
 
 // TODO - Move Delegate DS to Extension
 
-class HeadlinesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HeadlinesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
 
     var networkManager = NewsNetworkManager()
     var articles: [Article] = [Article]()
@@ -43,6 +43,7 @@ class HeadlinesVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
         
     }
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -100,11 +101,38 @@ class HeadlinesVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         
     }
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        print(indexPath.row)
-    }
+
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        if position > (tableView.contentSize.height-100)-scrollView.frame.size.height{
+            guard !networkManager.isPaginating else{return}
+            self.tableView.tableFooterView = createSpinnerFooter()
+            networkManager.fetch(pagination:true, url: "\(Constants.baseAPI)/top-headlines?country=in&pageSize=10&page=\(pageNum+1)&apiKey=\(Constants.apiKey)") {[weak self] result in
+                self?.pageNum += 1
+                DispatchQueue.main.async {
+                    self?.tableView.tableFooterView = nil
+                }
+                
+                self?.articles.append(contentsOf: result)
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            }
+        }
+    }
+    func createSpinnerFooter() -> UIView {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
+        let spinner = UIActivityIndicatorView()
+        spinner.center = footerView.center
+        spinner.startAnimating()
+        footerView.addSubview(spinner)
+        return footerView
+    }
 
 }
+
+

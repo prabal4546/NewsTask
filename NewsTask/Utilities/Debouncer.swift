@@ -25,11 +25,10 @@ public class Debouncer {
         })
     }
     
-    @objc private func timeIntervalDidFinish(for timer: Timer) {
+     private func timeIntervalDidFinish(for timer: Timer) {
         guard timer.isValid else {
             return
         }
-        
         handler?()
         handler = nil
     }

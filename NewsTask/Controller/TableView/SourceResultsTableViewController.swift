@@ -9,34 +9,28 @@ import UIKit
 import SafariServices
 
 class SourceResultsTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    
+   
+    let tableView = UITableView()
     var keyword:String
     var source:String
     var networkManager = NewsNetworkManager()
     var articles:[Article] = [Article]()
+    
     init(keyword: String,source:String) {
         self.source = source
         self.keyword = keyword
         super.init(nibName: nil, bundle: nil)
     }
-    // why?
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-
-    
-    let tableView = UITableView()
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
         title = "Results for \(keyword)"
         
-        // FIX ME: -
         networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&sources=\(source)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
             DispatchQueue.main.async {
@@ -52,6 +46,9 @@ class SourceResultsTableViewController: UIViewController,UITableViewDelegate,UIT
     func setupView(){
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
     }
 
     // TableView

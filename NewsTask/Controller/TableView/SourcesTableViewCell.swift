@@ -33,7 +33,6 @@ class SourcesTableViewCell: UITableViewCell {
         
         return myView
     }()
-    // MARK: - ViewLifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .systemBackground
@@ -70,12 +69,9 @@ class SourcesTableViewCell: UITableViewCell {
         ])
 
     }
-    // MARK: - Config
+    
     public func configure(title:String, description:String){
         headlineLabel.text = title
-
         descLabel.text = description
-        
-        
     }
 }

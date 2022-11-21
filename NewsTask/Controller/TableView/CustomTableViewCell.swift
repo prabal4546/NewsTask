@@ -43,25 +43,24 @@ class CustomTableViewCell: UITableViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         return label
     }()
-    let cellView:UIView = {
-        let myView = UIView()
-        
-        return myView
-    }()
-    // MARK: - ViewLifecycle
+//    let cellView:UIView = {
+//        let myView = UIView()
+//        return myView
+//    }()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .systemBackground
         setupView()
         backgroundColor = .clear
+        contentView.layer.cornerRadius = 10.0
+        contentView.layer.masksToBounds = true
         layer.masksToBounds = false
-        layer.shadowOpacity = 0.23
+        layer.shadowOpacity = 0.20
         layer.shadowRadius = 4
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowColor = UIColor.black.cgColor
         
     }
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -79,7 +78,6 @@ class CustomTableViewCell: UITableViewCell {
         setupConstraints()
     }
     func setupConstraints(){
-        //        myImageView.image = nil
         NSLayoutConstraint.activate([
             articleImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
             articleImageView.heightAnchor.constraint(equalToConstant: 70),
@@ -111,7 +109,6 @@ class CustomTableViewCell: UITableViewCell {
         headlineLabel.text = title
         if let source = souceName{
             sourceName.text = source
-            print(source)
         }
         else{
             sourceName.text = "Not working"

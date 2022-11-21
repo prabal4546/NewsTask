@@ -5,7 +5,6 @@
 //  Created by Prabaljit Walia on 15/11/22.
 //
 
-import Foundation
 struct Everything:Codable {
     let articles:[Article]?
     

@@ -14,6 +14,8 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var sourceName:String?
     var networkManager = NewsNetworkManager()
     var articles:[Article] = [Article]()
+    let tableView = UITableView()
+    
     init(keyword: String) {
         
         self.keyword = keyword
@@ -23,17 +25,12 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    let tableView = UITableView()
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupView()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
         title = "Results for \(keyword)"
-
+        
         // FIX ME: -
         networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
@@ -56,8 +53,11 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func setupView(){
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
     }
-
+    
     // TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return articles.count
@@ -65,7 +65,7 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else{return UITableViewCell()}
-
+        
         let selectedArticle = articles[indexPath.row]
         guard let url = URL(string:selectedArticle.urlToImage ?? "https://ibb.co/7CWHTJC") else {return UITableViewCell()}
         cell.configure(imgURL: url, title: selectedArticle.title, souceName: selectedArticle.source?.name, description: selectedArticle.description ?? "")
@@ -75,7 +75,7 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedArticle = articles[indexPath.row]
         guard let urlToArticle = selectedArticle.url else{return}
-
+        
         let vc = SFSafariViewController(url: URL(string:urlToArticle)!)
         present(vc, animated: true)
         
@@ -84,17 +84,8 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200
     }
-
+    
 }
 
-extension ResultsTableVC:UIScrollViewDelegate{
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let position = scrollView.contentOffset.y
-        if position > tableView.contentSize.height-100{
-            //fetch more data
-            print("fetch more")
-        }
-    }
-}
 
 
