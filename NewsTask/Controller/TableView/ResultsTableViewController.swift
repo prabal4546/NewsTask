@@ -8,7 +8,7 @@
 import UIKit
 import SafariServices
 
-class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ResultsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var keyword:String
     var sourceName:String?
@@ -25,20 +25,19 @@ class ResultsTableVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
+    // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         title = "Results for \(keyword)"
         
-        // FIX ME: -
         networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
-        networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=de&category=\(keyword)&apiKey=\(Constants.apiKey)") { data in
+        networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&category=\(keyword)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
             DispatchQueue.main.async {
                 self.tableView.reloadData()

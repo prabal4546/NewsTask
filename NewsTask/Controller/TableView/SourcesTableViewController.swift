@@ -8,7 +8,7 @@
 import UIKit
 import SafariServices
 
-class SourcesViewController: UIViewController {
+class SourcesTableViewController: UIViewController {
     
     let tableView = UITableView()
     var category:String
@@ -26,9 +26,9 @@ class SourcesViewController: UIViewController {
     }
     
     @objc func skipTapped(){
-        self.navigationController?.pushViewController(ResultsTableVC(keyword: keywordFromSearch), animated: true)
+        self.navigationController?.pushViewController(ResultsTableViewController(keyword: keywordFromSearch), animated: true)
     }
-    
+    // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,7 +59,7 @@ class SourcesViewController: UIViewController {
     
 }
 
-extension SourcesViewController:UITableViewDelegate,UITableViewDataSource{
+extension SourcesTableViewController:UITableViewDelegate,UITableViewDataSource{
     // TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sources.count

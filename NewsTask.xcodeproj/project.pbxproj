@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6D4BD16C2927580C00ADBAC4 /* Sources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BD16B2927580C00ADBAC4 /* Sources.swift */; };
-		6D4BD1702927594200ADBAC4 /* SourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BD16F2927594200ADBAC4 /* SourcesViewController.swift */; };
+		6D4BD1702927594200ADBAC4 /* SourcesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BD16F2927594200ADBAC4 /* SourcesTableViewController.swift */; };
 		6D4BD172292761A100ADBAC4 /* SourceResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BD171292761A100ADBAC4 /* SourceResultsTableViewController.swift */; };
 		6D4BD1742927696200ADBAC4 /* SourcesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BD1732927696200ADBAC4 /* SourcesTableViewCell.swift */; };
 		6DD160AF292266DB0098CEDB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160AE292266DB0098CEDB /* AppDelegate.swift */; };
@@ -16,13 +16,13 @@
 		6DD160B3292266DB0098CEDB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160B2292266DB0098CEDB /* ViewController.swift */; };
 		6DD160B8292266DC0098CEDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DD160B7292266DC0098CEDB /* Assets.xcassets */; };
 		6DD160BB292266DC0098CEDB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DD160B9292266DC0098CEDB /* LaunchScreen.storyboard */; };
-		6DD160C9292348A10098CEDB /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160C8292348A10098CEDB /* HomeVC.swift */; };
-		6DD160CB29234AF20098CEDB /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160CA29234AF20098CEDB /* MapVC.swift */; };
-		6DD160CD29234F8F0098CEDB /* HeadlinesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160CC29234F8F0098CEDB /* HeadlinesVC.swift */; };
+		6DD160C9292348A10098CEDB /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160C8292348A10098CEDB /* HomeViewController.swift */; };
+		6DD160CB29234AF20098CEDB /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160CA29234AF20098CEDB /* MapViewController.swift */; };
+		6DD160CD29234F8F0098CEDB /* HeadlinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160CC29234F8F0098CEDB /* HeadlinesViewController.swift */; };
 		6DD160D12923555D0098CEDB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D02923555D0098CEDB /* Constants.swift */; };
 		6DD160D3292355B60098CEDB /* NewsNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D2292355B60098CEDB /* NewsNetworkManager.swift */; };
 		6DD160D5292373820098CEDB /* Everything.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D4292373820098CEDB /* Everything.swift */; };
-		6DD160D8292384430098CEDB /* ResultsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D7292384430098CEDB /* ResultsTableVC.swift */; };
+		6DD160D8292384430098CEDB /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D7292384430098CEDB /* ResultsTableViewController.swift */; };
 		6DD160DE2924C48B0098CEDB /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160DD2924C48B0098CEDB /* CustomTableViewCell.swift */; };
 		6DD39BFD292A043800722F96 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD39BFC292A043800722F96 /* Debouncer.swift */; };
 		6DD39BFF292A5CBF00722F96 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD39BFE292A5CBF00722F96 /* CollectionViewController.swift */; };
@@ -30,7 +30,7 @@
 
 /* Begin PBXFileReference section */
 		6D4BD16B2927580C00ADBAC4 /* Sources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources.swift; sourceTree = "<group>"; };
-		6D4BD16F2927594200ADBAC4 /* SourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcesViewController.swift; sourceTree = "<group>"; };
+		6D4BD16F2927594200ADBAC4 /* SourcesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcesTableViewController.swift; sourceTree = "<group>"; };
 		6D4BD171292761A100ADBAC4 /* SourceResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceResultsTableViewController.swift; sourceTree = "<group>"; };
 		6D4BD1732927696200ADBAC4 /* SourcesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcesTableViewCell.swift; sourceTree = "<group>"; };
 		6DD160AB292266DB0098CEDB /* NewsTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -40,13 +40,13 @@
 		6DD160B7292266DC0098CEDB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6DD160BA292266DC0098CEDB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6DD160BC292266DC0098CEDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6DD160C8292348A10098CEDB /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
-		6DD160CA29234AF20098CEDB /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
-		6DD160CC29234F8F0098CEDB /* HeadlinesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesVC.swift; sourceTree = "<group>"; };
+		6DD160C8292348A10098CEDB /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		6DD160CA29234AF20098CEDB /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		6DD160CC29234F8F0098CEDB /* HeadlinesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesViewController.swift; sourceTree = "<group>"; };
 		6DD160D02923555D0098CEDB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6DD160D2292355B60098CEDB /* NewsNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsNetworkManager.swift; sourceTree = "<group>"; };
 		6DD160D4292373820098CEDB /* Everything.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Everything.swift; sourceTree = "<group>"; };
-		6DD160D7292384430098CEDB /* ResultsTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableVC.swift; sourceTree = "<group>"; };
+		6DD160D7292384430098CEDB /* ResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewController.swift; sourceTree = "<group>"; };
 		6DD160DD2924C48B0098CEDB /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		6DD39BFC292A043800722F96 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
 		6DD39BFE292A5CBF00722F96 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
@@ -116,10 +116,10 @@
 			isa = PBXGroup;
 			children = (
 				6DD160D6292383EC0098CEDB /* TableView */,
-				6DD160C8292348A10098CEDB /* HomeVC.swift */,
+				6DD160C8292348A10098CEDB /* HomeViewController.swift */,
 				6DD160B2292266DB0098CEDB /* ViewController.swift */,
-				6DD160CA29234AF20098CEDB /* MapVC.swift */,
-				6DD160CC29234F8F0098CEDB /* HeadlinesVC.swift */,
+				6DD160CA29234AF20098CEDB /* MapViewController.swift */,
+				6DD160CC29234F8F0098CEDB /* HeadlinesViewController.swift */,
 				6DD39BFE292A5CBF00722F96 /* CollectionViewController.swift */,
 			);
 			path = Controller;
@@ -137,9 +137,9 @@
 		6DD160D6292383EC0098CEDB /* TableView */ = {
 			isa = PBXGroup;
 			children = (
-				6DD160D7292384430098CEDB /* ResultsTableVC.swift */,
+				6DD160D7292384430098CEDB /* ResultsTableViewController.swift */,
 				6DD160DD2924C48B0098CEDB /* CustomTableViewCell.swift */,
-				6D4BD16F2927594200ADBAC4 /* SourcesViewController.swift */,
+				6D4BD16F2927594200ADBAC4 /* SourcesTableViewController.swift */,
 				6D4BD171292761A100ADBAC4 /* SourceResultsTableViewController.swift */,
 				6D4BD1732927696200ADBAC4 /* SourcesTableViewCell.swift */,
 			);
@@ -216,17 +216,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DD160CD29234F8F0098CEDB /* HeadlinesVC.swift in Sources */,
+				6DD160CD29234F8F0098CEDB /* HeadlinesViewController.swift in Sources */,
 				6DD39BFD292A043800722F96 /* Debouncer.swift in Sources */,
 				6D4BD172292761A100ADBAC4 /* SourceResultsTableViewController.swift in Sources */,
 				6DD160B3292266DB0098CEDB /* ViewController.swift in Sources */,
 				6DD160DE2924C48B0098CEDB /* CustomTableViewCell.swift in Sources */,
 				6D4BD16C2927580C00ADBAC4 /* Sources.swift in Sources */,
-				6D4BD1702927594200ADBAC4 /* SourcesViewController.swift in Sources */,
-				6DD160CB29234AF20098CEDB /* MapVC.swift in Sources */,
-				6DD160C9292348A10098CEDB /* HomeVC.swift in Sources */,
+				6D4BD1702927594200ADBAC4 /* SourcesTableViewController.swift in Sources */,
+				6DD160CB29234AF20098CEDB /* MapViewController.swift in Sources */,
+				6DD160C9292348A10098CEDB /* HomeViewController.swift in Sources */,
 				6DD160AF292266DB0098CEDB /* AppDelegate.swift in Sources */,
-				6DD160D8292384430098CEDB /* ResultsTableVC.swift in Sources */,
+				6DD160D8292384430098CEDB /* ResultsTableViewController.swift in Sources */,
 				6DD39BFF292A5CBF00722F96 /* CollectionViewController.swift in Sources */,
 				6DD160D3292355B60098CEDB /* NewsNetworkManager.swift in Sources */,
 				6DD160B1292266DB0098CEDB /* SceneDelegate.swift in Sources */,

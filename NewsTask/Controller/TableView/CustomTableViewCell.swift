@@ -43,10 +43,7 @@ class CustomTableViewCell: UITableViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         return label
     }()
-//    let cellView:UIView = {
-//        let myView = UIView()
-//        return myView
-//    }()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .systemBackground

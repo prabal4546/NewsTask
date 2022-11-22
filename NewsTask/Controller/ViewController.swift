@@ -13,9 +13,9 @@ class ViewController: UIViewController {
     private var tabBarView:UITabBarController = {
         let tabBarVC = UITabBarController()
         
-        let vc1 = UINavigationController(rootViewController: HomeVC())
-        let vc2 = UINavigationController(rootViewController: MapVC())
-        let vc3 = UINavigationController(rootViewController: HeadlinesVC())
+        let vc1 = UINavigationController(rootViewController: HomeViewController())
+        let vc2 = UINavigationController(rootViewController: MapViewController())
+        let vc3 = UINavigationController(rootViewController: HeadlinesViewController())
         
         vc1.title = "Search"
         vc2.title = "Map"
@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         tabBarVC.tabBar.backgroundColor = .clear
         return tabBarVC
     }()
-    // MARK: - Lifecycle
+    // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.

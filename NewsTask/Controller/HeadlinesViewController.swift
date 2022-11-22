@@ -10,7 +10,7 @@ import SafariServices
 
 // TODO - Move Delegate DS to Extension
 
-class HeadlinesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class HeadlinesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
 
     var networkManager = NewsNetworkManager()
     var articles: [Article] = [Article]()
@@ -43,7 +43,7 @@ class HeadlinesVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         }
         
     }
-    // MARK: - Lifecycle
+    // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         

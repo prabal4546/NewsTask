@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeVC: UIViewController {
+class HomeViewController: UIViewController {
     var networkManager = NewsNetworkManager()
     var selectedCategory = ""
     let categoriesData = ["business","entertainment","general","health","science","sports","technology","business","entertainment","general","health","science","sports","technology"]
@@ -92,12 +92,12 @@ class HomeVC: UIViewController {
     }
 
     
-    // MARK: - Lifecycle
+    // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         title = "Search"
-        searchField.addTarget(self, action: #selector(HomeVC.textFieldDidChange), for: .editingChanged)
+        searchField.addTarget(self, action: #selector(HomeViewController.textFieldDidChange), for: .editingChanged)
 
         setupView()
         setupConstraints()
@@ -117,7 +117,7 @@ class HomeVC: UIViewController {
     
 }
 
-extension HomeVC: UITextFieldDelegate{
+extension HomeViewController: UITextFieldDelegate{
     @objc func textFieldDidChange(){
         debouncer.renewInterval()
         debouncer.handler = {
@@ -128,7 +128,7 @@ extension HomeVC: UITextFieldDelegate{
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 }else{
-                    self.navigationController?.pushViewController(SourcesViewController(category: self.selectedCategory, keywordFromSearch: keyword), animated: true)
+                    self.navigationController?.pushViewController(SourcesTableViewController(category: self.selectedCategory, keywordFromSearch: keyword), animated: true)
                 }
             }
         }
@@ -173,7 +173,7 @@ extension HomeVC: UITextFieldDelegate{
 //    }
     
 }
-extension HomeVC:UITableViewDelegate,UITableViewDataSource{
+extension HomeViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categoriesData.count
     }
@@ -208,7 +208,7 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
     }
 }
 
-extension HomeVC{
+extension HomeViewController{
     func animate(toggle: Bool, type: UIButton) {
              
            if type == showDropDownBtn {

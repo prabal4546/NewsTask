@@ -13,7 +13,6 @@ class CollectionViewController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         layout.scrollDirection = .horizontal
-        //why self on right
         cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cv-cell")
         return cv
     }()
