@@ -5,20 +5,27 @@
 //  Created by Prabaljit Walia on 15/11/22.
 //
 
-struct Everything:Codable {
-    let articles:[Article]?
+// space after colon and every scope of function/class/extension
+// if not using encoding - use only Decodable protocol
+// if part of grocerySDK - Use 'G' as prefix when in GrocerySDK and 'B' when defining in Blinkit
+// define models preferably as nested - if it's scope is not global
+// access specifier - public/open
+// use class when u think - it can be subclassed in future
+
+struct Everything: Codable {
+    let articles: [Article]?
     
     init(articles: [Article]?) {
         self.articles = articles
     }
 }
-struct Article:Codable{
-    let author:String?
-    let description:String?
-    let title:String
-    let url:String?
-    let urlToImage:String?
-    let source:Source?
+
+struct Article: Codable {
+    let author, description: String?
+    let title: String
+    let url: String?
+    let urlToImage: String?
+    let source: Source?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -31,15 +38,3 @@ struct Article:Codable{
     }
 }
 
-struct Source:Codable{
-    let id:String?
-    let name:String?
-    let description:String?
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decodeIfPresent(String.self, forKey: .id)
-        self.name = try container.decodeIfPresent(String.self, forKey: .name)
-        self.description = try container.decodeIfPresent(String.self, forKey: .description)
-    }
-}

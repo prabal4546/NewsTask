@@ -6,11 +6,10 @@
 //
 
 import Foundation
+
 public class Debouncer {
-    
     private let timeInterval: TimeInterval
     private var timer: Timer?
-    
     typealias Handler = () -> Void
     var handler: Handler?
     
@@ -32,5 +31,4 @@ public class Debouncer {
         handler?()
         handler = nil
     }
-    
 }

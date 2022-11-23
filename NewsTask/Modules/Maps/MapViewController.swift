@@ -8,11 +8,18 @@
 import UIKit
 
 class MapViewController: UIViewController {
+    struct Constants {
+        static let navTitle = "Map"
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        title = "Map"
+        // ✅separate func
+        setupView()
+    }
+    
+    func setupView() {
+        title = Constants.navTitle
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
     }

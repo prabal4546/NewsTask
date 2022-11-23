@@ -7,45 +7,40 @@
 
 import Foundation
 
-// TODO - Move to VM
-
-class NewsNetworkManager{
+class NewsNetworkManager {
      var isPaginating = false
-    // what's @escaping
-     func fetch(pagination:Bool = false,url:String, completed: @escaping ([Article]) -> Void){
-        if pagination{
+    
+     func fetch(pagination: Bool = false, url: String, completed: @escaping ([Article]) -> Void) {
+        if pagination {
             isPaginating = true
         }
-        guard let url = URL(string: url) else{return}
+        guard let url = URL(string: url) else { return }
         let request = URLRequest(url: url)
-        // difference b/w response & error
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let safeData = data{
-                guard let decodedData = try? JSONDecoder().decode(Everything.self, from: safeData) else{
-                    return
-                }
-                guard let fetchedArticles = decodedData.articles else{return}
+            if let safeData = data {
+                guard let decodedData = try? JSONDecoder().decode(Everything.self, from: safeData) else { return }
+                guard let fetchedArticles = decodedData.articles else { return }
                 completed(fetchedArticles)
-                if pagination{
+                if pagination {
                     self.isPaginating = false
                 }
-            }else{
+            } else {
                 print(error)
             }
         }
             task.resume()
     }
     
-    func fetchSources(url:String, completed: @escaping ([Source]) -> Void){
-        guard let url = URL(string: url) else{return}
+    func fetchSources(url:String, completed: @escaping ([Source]) -> Void) {
+        guard let url = URL(string: url) else { return }
         let request = URLRequest(url: url)
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let safeData = data{
-                guard let decodedData = try? JSONDecoder().decode(Sources.self, from: safeData) else{
+                guard let decodedData = try? JSONDecoder().decode(Sources.self, from: safeData) else {
                     return
                 }
                 completed(decodedData.sources)
-            }else{
+            } else {
                 print(error)
             }
         }
