@@ -66,7 +66,7 @@ extension TableViewDataSourceAndDelegates: UITableViewDelegate,UITableViewDataSo
         }
         let selectedArticle = articles[indexPath.row]
         guard let url = URL(string:selectedArticle.urlToImage ?? "https://ibb.co/7CWHTJC") else { return UITableViewCell() }
-        cell.configure(imgURL: url, title: selectedArticle.title, souceName: selectedArticle.source?.name, description: selectedArticle.description ?? "")
+        cell.configure(model: CustomCellModel(imgURL: url, title: selectedArticle.title, souceName: selectedArticle.source?.name, description: selectedArticle.description ?? ""))
         return cell
     }
     
@@ -78,7 +78,5 @@ extension TableViewDataSourceAndDelegates: UITableViewDelegate,UITableViewDataSo
         present(safariView, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-         200
-    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
 }

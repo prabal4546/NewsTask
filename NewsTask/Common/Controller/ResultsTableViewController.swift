@@ -49,7 +49,7 @@ extension TableViewSetup: UITableViewDelegate, UITableViewDataSource {
         }
         let selectedArticle = articles[indexPath.row]
         guard let url = URL(string:selectedArticle.urlToImage ?? "https://ibb.co/7CWHTJC") else { return UITableViewCell() }
-        cell.configure(imgURL: url, title: selectedArticle.title, souceName: selectedArticle.source?.name, description: selectedArticle.description ?? "")
+        cell.configure(model: CustomCellModel(imgURL: url, title: selectedArticle.title, souceName: selectedArticle.source?.name, description: selectedArticle.description ?? ""))
         return cell
     }
     
