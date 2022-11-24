@@ -56,8 +56,7 @@ extension TableViewSetup: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedArticle = articles[indexPath.row]
-        guard let urlToArticle = selectedArticle.url else { return }
-        guard let url = URL(string: urlToArticle) else { return }
+        guard let urlToArticle = selectedArticle.url, let url = URL(string: urlToArticle) else { return }
         let vc = SFSafariViewController(url: url)
         present(vc, animated: true)
     }
