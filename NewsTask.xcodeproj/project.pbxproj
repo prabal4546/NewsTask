@@ -25,7 +25,7 @@
 		6DD160D8292384430098CEDB /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160D7292384430098CEDB /* ResultsTableViewController.swift */; };
 		6DD160DE2924C48B0098CEDB /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD160DD2924C48B0098CEDB /* CustomTableViewCell.swift */; };
 		6DD39BFD292A043800722F96 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD39BFC292A043800722F96 /* Debouncer.swift */; };
-		6DD39C03292CBDD100722F96 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD39C02292CBDD100722F96 /* Extensions.swift */; };
+		6DD39C03292CBDD100722F96 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD39C02292CBDD100722F96 /* String+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,7 +49,7 @@
 		6DD160D7292384430098CEDB /* ResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewController.swift; sourceTree = "<group>"; };
 		6DD160DD2924C48B0098CEDB /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		6DD39BFC292A043800722F96 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
-		6DD39C02292CBDD100722F96 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		6DD39C02292CBDD100722F96 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,7 +168,7 @@
 			children = (
 				6DD160D02923555D0098CEDB /* Constants.swift */,
 				6DD39BFC292A043800722F96 /* Debouncer.swift */,
-				6DD39C02292CBDD100722F96 /* Extensions.swift */,
+				6DD39C02292CBDD100722F96 /* String+Extension.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -302,7 +302,7 @@
 				6DD160D3292355B60098CEDB /* NewsNetworkManager.swift in Sources */,
 				6DD160B1292266DB0098CEDB /* SceneDelegate.swift in Sources */,
 				6DD160D12923555D0098CEDB /* Constants.swift in Sources */,
-				6DD39C03292CBDD100722F96 /* Extensions.swift in Sources */,
+				6DD39C03292CBDD100722F96 /* String+Extension.swift in Sources */,
 				6DD160D5292373820098CEDB /* Everything.swift in Sources */,
 				6D4BD1742927696200ADBAC4 /* SourcesTableViewCell.swift in Sources */,
 			);

@@ -9,11 +9,11 @@ import UIKit
 import SafariServices
 
 class SourcesTableViewController: UIViewController {
-    let tableView = UITableView()
-    var category: String
-    var networkManager = NewsNetworkManager()
-    var sources: [Source] = [Source]()
-    var keywordFromSearch: String
+    private let tableView = UITableView()
+    private var category: String
+    private var networkManager = NewsNetworkManager()
+    private var sources: [Source] = [Source]()
+    private var keywordFromSearch: String
     
     init(category: String, keywordFromSearch: String) {
         self.category = category
@@ -92,10 +92,10 @@ extension ConfigureView {
     }
     
     func fetchData() {
-        networkManager.fetchSources(url: "\(Constants.baseAPI)/top-headlines/sources?&apiKey=\(Constants.apiKey)") { [self] data in
-            self.sources = data
+        networkManager.fetchSources(url: "\(Constants.baseAPI)/top-headlines/sources?&apiKey=\(Constants.apiKey)") { [weak self] data in
+            self?.sources = data
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
             }
         }
     }

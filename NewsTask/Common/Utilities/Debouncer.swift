@@ -19,7 +19,7 @@ public class Debouncer {
     
     public func renewInterval() {
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { [weak self] (timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { [weak self] timer in
             self?.timeIntervalDidFinish(for: timer)
         })
     }
@@ -27,6 +27,6 @@ public class Debouncer {
      private func timeIntervalDidFinish(for timer: Timer) {
         guard timer.isValid else { return }
         handler?()
-        handler = nil
+        handler = nil // check it 
     }
 }

@@ -9,13 +9,13 @@ import UIKit
 import SafariServices
 
 class SourceResultsTableViewController: UIViewController {
-    let tableView = UITableView()
-    var keyword: String
-    var source: String
-    var networkManager = NewsNetworkManager()
-    var articles:[Article] = [Article]()
+    private let tableView = UITableView()
+    private var keyword: String
+    private var source: String
+    private var networkManager = NewsNetworkManager()
+    private var articles = [Article]()
     
-    init(keyword: String,source: String) {
+    init(keyword: String, source: String) {
         self.source = source
         self.keyword = keyword
         super.init(nibName: nil, bundle: nil)
@@ -32,31 +32,15 @@ class SourceResultsTableViewController: UIViewController {
         fetchData()
     }
     
+    // better to use constraints in future📝
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
-    
-    private func setupView() {
-        title = "Results for \(keyword)"
-        view.backgroundColor = .systemBackground
-        view.addSubview(tableView)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
-    }
-    
-    private func fetchData() {
-        networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&sources=\(source)&apiKey=\(Constants.apiKey)") { data in
-            self.articles = data
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
 }
 
 private typealias TableViewDataSourceAndDelegates = SourceResultsTableViewController
+
 extension TableViewDataSourceAndDelegates: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { articles.count  }
@@ -64,9 +48,11 @@ extension TableViewDataSourceAndDelegates: UITableViewDelegate,UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else { return UITableViewCell()
         }
+        
+        // cleanup
         let selectedArticle = articles[indexPath.row]
         guard let url = URL(string:selectedArticle.urlToImage ?? "https://ibb.co/7CWHTJC") else { return UITableViewCell() }
-        cell.configure(model: CustomCellModel(imgURL: url, title: selectedArticle.title, souceName: selectedArticle.source?.name, description: selectedArticle.description ?? ""))
+        cell.setData(model: CustomCellModel(imgURL: url, title: selectedArticle.title, souceName: selectedArticle.source?.name, description: selectedArticle.description ?? ""))
         return cell
     }
     
@@ -79,4 +65,28 @@ extension TableViewDataSourceAndDelegates: UITableViewDelegate,UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
+}
+
+private typealias ConfigureView = SourceResultsTableViewController
+
+extension ConfigureView {
+    private func setupView() {
+        title = keyword 
+        view.backgroundColor = .systemBackground
+        view.addSubview(tableView)
+        setuptableView()
+    }
+    
+    private func setuptableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
+    }
+    
+    private func fetchData() {
+        networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&sources=\(source)&apiKey=\(Constants.apiKey)") { [weak self] data in
+            self?.articles = data
+            self?.tableView.reloadData()
+        }
+    }
 }

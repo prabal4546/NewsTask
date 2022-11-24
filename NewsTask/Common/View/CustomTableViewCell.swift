@@ -8,14 +8,13 @@
 import UIKit
 
 struct CustomCellModel {
-let imgURL: URL
-let title: String
-let souceName: String?
-let description: String
+    let imgURL: URL
+    let title: String
+    let souceName: String?
+    let description: String
 }
 
 class CustomTableViewCell: UITableViewCell {
-    var imageURL:String?
     static let identifier = "CustomTableViewCell"
     static let fallbackName = "Not working"
     
@@ -66,25 +65,21 @@ class CustomTableViewCell: UITableViewCell {
     
     // MARK: - Config
     // ✅replace with model
-    public func configure(model: CustomCellModel) {
+    // ✅replace with setData - configure is also fine but in our code base we use setData
+    public func setData(model: CustomCellModel) {
         headlineLabel.text = model.title
-        if let source = model.souceName {
-            sourceName.text = source
-        }
-        else {
-            sourceName.text = CustomTableViewCell.fallbackName
-        }
+        sourceName.text = model.souceName ?? CustomTableViewCell.fallbackName
         descLabel.text = model.description
         load(from: model.imgURL) { data in
-            guard let cellImage = UIImage(data: data) else{return}
+            guard let cellImage = UIImage(data: data) else { return }
             DispatchQueue.main.async {
                 self.articleImageView.image = cellImage
             }
         }
     }
     
-    private func load(from url: URL, completion: @escaping (Data)->()) {
-        DispatchQueue.global().async { [weak self] in
+    private func load(from url: URL, completion: @escaping (Data) -> ()) {
+        DispatchQueue.global().async {
             if let data = try? Data(contentsOf: url) {
                 completion(data)
             }
@@ -93,6 +88,7 @@ class CustomTableViewCell: UITableViewCell {
 }
 
 private typealias ConfigureView = CustomTableViewCell
+
 extension ConfigureView {
     private func setupView() {
         addSubview(articleImageView)
@@ -108,40 +104,40 @@ extension ConfigureView {
         contentView.layer.cornerRadius = 10.0
         contentView.layer.masksToBounds = true
         layer.masksToBounds = false
-        layer.shadowOpacity = 0.20
+        layer.shadowOpacity = 0.2
         layer.shadowRadius = 4
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowColor = UIColor.black.cgColor
     }
     
     private func setupConstraints() {
-        let p5: CGFloat = 5
+        let p4: CGFloat = 4 // future m only we have even number in padding like 4, 8, 12, 16
         let p70: CGFloat = 70
         let p2: CGFloat = 2
         
         NSLayoutConstraint.activate([
-            articleImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -p5),
+            articleImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -p4),
             articleImageView.heightAnchor.constraint(equalToConstant: p70),
-            articleImageView.widthAnchor.constraint(equalTo: articleImageView.heightAnchor,multiplier: 16/9),
-            articleImageView.topAnchor.constraint(equalTo: topAnchor,constant: p5)
+            articleImageView.widthAnchor.constraint(equalTo: articleImageView.heightAnchor, multiplier: 16/9),
+            articleImageView.topAnchor.constraint(equalTo: topAnchor,constant: p4)
         ])
         
         NSLayoutConstraint.activate([
-            headlineLabel.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor,constant: -p5),
-            headlineLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: p5),
-            headlineLabel.topAnchor.constraint(equalTo: topAnchor,constant: p5)
+            headlineLabel.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor, constant: -p4),
+            headlineLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: p4),
+            headlineLabel.topAnchor.constraint(equalTo: topAnchor,constant: p4)
         ])
         
         NSLayoutConstraint.activate([
-            descLabel.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor,constant: p2),
+            descLabel.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor, constant: p2),
             descLabel.bottomAnchor.constraint(equalTo: sourceName.topAnchor),
-            descLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: p5),
+            descLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: p4),
             descLabel.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            sourceName.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -p5),
-            sourceName.leadingAnchor.constraint(equalTo: leadingAnchor,constant: p5),
+            sourceName.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -p4),
+            sourceName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: p4),
             sourceName.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor)
         ])
     }

@@ -9,10 +9,10 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    var networkManager = NewsNetworkManager()
-    var selectedCategory = ""
-    let categoriesData = Constants.categoriesData
-    let debouncer = Debouncer(timeInterval: 0.5)
+    private var networkManager = NewsNetworkManager()
+    private var selectedCategory = ""
+    private let categoriesData = Constants.categoriesData
+    private let debouncer = Debouncer(timeInterval: 0.5)
     
     struct Constants {
         static let cellIdentifier = "categories-cell"
@@ -26,11 +26,11 @@ class HomeViewController: UIViewController {
         static let alertActionTitle = "Ok"
         static let placeholder = "Type something"
         static let categoriesData = ["business","entertainment","general","health","science","sports","technology","business","entertainment","general","health","science","sports","technology"]
-
+        
     }
     
     // MARK: - UI Elements
-    private var searchField:UITextField = {
+    private var searchField: UITextField = {
         let textfield = UITextField()
         textfield.placeholder = Constants.search
         textfield.borderStyle = .roundedRect
@@ -39,7 +39,7 @@ class HomeViewController: UIViewController {
         return textfield
     }()
     
-    private var showDropDownBtn:UIButton = {
+    private var showDropDownBtn: UIButton = {
         let button = UIButton()
         button.setTitle(Constants.categories, for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -51,19 +51,19 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-    private var selectCategoryLabel:UILabel = {
+    private var selectCategoryLabel: UILabel = {
         let label = UILabel()
         label.text = Constants.selectCategory // ✅constants
         return label
     }()
     
-    private var categoryTableView:UITableView = {
+    private var categoryTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.keyboardDismissMode = .onDrag // read about this
         return tableView
     }()
-
+    
     // identation
     // ✅ use ? _ : _
     @objc func categoryTapped() {
@@ -122,23 +122,22 @@ extension TextFieldMethods: UITextFieldDelegate {
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        // TODO: make optional string extension - check stackoverflow  (for nonEmpty() )
         if searchField.text != "" {
             return true
         } else {
-            // constants
             searchField.placeholder = Constants.placeholder
             return false
         }
     }
 }
 
-// Use tyealias - refer below example
 //MARK: - Tableview related methods
 private typealias TableViewDataSourceAndDelegates = HomeViewController
 
 extension TableViewDataSourceAndDelegates: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { categoriesData.count }
-        // ✅remove return statement whenever 1 LOC
+    // ✅remove return statement whenever 1 LOC
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // as of now - its fine to use Apple's defined cell
@@ -154,22 +153,15 @@ extension TableViewDataSourceAndDelegates: UITableViewDelegate, UITableViewDataS
         animate(toggle: false)
     }
     
-    // One line
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        Constants.categoryStart // ✅put in constants
+    // ✅One line
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? { Constants.categoryStart // ✅put in constants
     }
     
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        Constants.categoryEnd //✅ put in constants
-    }
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? { Constants.categoryEnd }
     
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        view.tintColor = UIColor.yellow
-    }
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) { view.tintColor = UIColor.yellow }
     
-    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        view.tintColor = .yellow
-    }
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) { view.tintColor = .yellow }
 }
 
 // ✅Use typealias
@@ -177,17 +169,12 @@ private typealias DropDownButton = HomeViewController
 
 extension DropDownButton {
     //✅ check parameters
+    // paramter name can be more descriptive ??
     private func animate(toggle: Bool) {
         // TODO:
         // ✅same duplicate code - check it : if different then u can use switch case
-        if toggle {
-            UIView.animate(withDuration: 0.3) {
-                self.categoryTableView.isHidden = !toggle
-            }
-        } else {
-            UIView.animate(withDuration: 0.3) {
-                self.categoryTableView.isHidden = true
-            }
+        UIView.animate(withDuration: 0.3) {
+            self.categoryTableView.isHidden = !toggle
         }
     }
 }
@@ -196,8 +183,8 @@ extension DropDownButton {
 private typealias ConfigureView = HomeViewController
 
 extension ConfigureView {
-    // cnfureViews from viewDIdload -> setUpview (has serachBarSetup() and tableviewswtup())
-    // extension
+    // ✅cnfureViews from viewDIdload -> setUpview (has serachBarSetup() and tableviewswtup())
+    // ✅extension
     private func configureViews() {
         setupView()
         searchBarSetup()
@@ -222,7 +209,7 @@ extension ConfigureView {
     private func tableViewSetup() {
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
-        categoryTableView.layer.cornerRadius = 5
+        categoryTableView.layer.cornerRadius = 4
         categoryTableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
     }
     
