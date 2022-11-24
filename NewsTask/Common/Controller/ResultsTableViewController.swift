@@ -10,11 +10,11 @@ import SafariServices
 
 class ResultsTableViewController: UIViewController {
     
-    var keyword: String
-    var sourceName: String?
-    var networkManager = NewsNetworkManager()
-    var articles: [Article] = [Article]()
-    let tableView = UITableView()
+    private var keyword: String
+    private var sourceName: String?
+    private var networkManager = NewsNetworkManager()
+    private var articles = [Article]()
+    private let tableView = UITableView()
     
     init(keyword: String) {
         self.keyword = keyword
@@ -45,28 +45,35 @@ extension TableViewSetup: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else { return UITableViewCell()
-        }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else { return UITableViewCell() }
+        
         let selectedArticle = articles[indexPath.row]
-        guard let url = URL(string:selectedArticle.urlToImage ?? "https://ibb.co/7CWHTJC") else { return UITableViewCell() }
-        cell.configure(model: CustomCellModel(imgURL: url, title: selectedArticle.title, souceName: selectedArticle.source?.name, description: selectedArticle.description ?? ""))
+        guard let url = URL(string: selectedArticle.urlToImage ?? "https://ibb.co/7CWHTJC") else { return UITableViewCell() }
+        
+        // Advanced - make - builder DESIGN PATTERN - where u can build
+        // atleast make separate func that will return your cellModel
+        cell.setData(model: CustomCellModel(imgURL: url,
+                                              title: selectedArticle.title,
+                                              souceName: selectedArticle.source?.name,
+                                              description: selectedArticle.description ?? ""))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let selectedArticle = articles[indexPath.row]
-        guard let urlToArticle = selectedArticle.url, let url = URL(string: urlToArticle) else { return }
-        let vc = SFSafariViewController(url: url)
-        present(vc, animated: true)
+        
+        guard let urlToArticle = articles[indexPath.row].url,
+              let url = URL(string: urlToArticle) else { return }
+        
+        let safariView = SFSafariViewController(url: url)
+        present(safariView, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        200
-    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
 }
 
 private typealias ConfigureView = ResultsTableViewController
+
 extension ConfigureView {
     private func setupView() {
         view.backgroundColor = .systemBackground
@@ -78,21 +85,19 @@ extension ConfigureView {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        // rowheight?? - automatic demension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
     }
+    
+    // ✅why two calls ?? need to correct logic
     private func fetchData() {
         // Network Layer
-        networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&apiKey=\(Constants.apiKey)") { data in
-            self.articles = data
+        // ✅capture list ??
+        networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&apiKey=\(Constants.apiKey)") { [weak self] data in
+            self?.articles = data
             DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-        
-        networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&category=\(keyword)&apiKey=\(Constants.apiKey)") { data in
-            self.articles = data
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
             }
         }
     }

@@ -23,7 +23,6 @@ class ViewController: UIViewController {
     }
     
     // ✅check the logicals here
-    // Presenting view controller <UITabBarController: 0x151828e00> from detached view controller is discouraged.
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         present(tabBarView, animated: true)
@@ -58,8 +57,6 @@ extension TabBarSetup {
         setTabItemSymbols()
         tabBarView.modalPresentationStyle = .fullScreen
         tabBarView.tabBar.backgroundColor = .clear
-        
-
     }
     
     private func setTabItemSymbols() {
