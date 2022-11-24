@@ -12,7 +12,7 @@ class SourcesTableViewCell: UITableViewCell {
     static let identifier = "source-cell"
     
     // MARK: - UI Elements
-    let headlineLabel: UILabel = {
+    private let headlineLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +20,7 @@ class SourcesTableViewCell: UITableViewCell {
         return label
     }()
 
-    let descLabel: UILabel = {
+    private let descLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -46,14 +46,14 @@ class SourcesTableViewCell: UITableViewCell {
         super.layoutSubviews()
     }
     
-    func setupView() {
+    private func setupView() {
         contentView.backgroundColor = .systemBackground
         addSubview(headlineLabel)
         addSubview(descLabel)
         setupConstraints()
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         let p5:CGFloat = 5
         let p2:CGFloat = 2
         NSLayoutConstraint.activate ([

@@ -8,21 +8,22 @@
 import Foundation
 
 class NewsNetworkManager {
-     var isPaginating = false
+     var isFetching = false // ✅name incorrect
     
      func fetch(pagination: Bool = false, url: String, completed: @escaping ([Article]) -> Void) {
         if pagination {
-            isPaginating = true
+            isFetching = true
         }
         guard let url = URL(string: url) else { return }
         let request = URLRequest(url: url)
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let safeData = data {
-                guard let decodedData = try? JSONDecoder().decode(Everything.self, from: safeData) else { return }
-                guard let fetchedArticles = decodedData.articles else { return }
-                completed(fetchedArticles)
+                guard let decodedData = try? JSONDecoder().decode(Everything.self, from: safeData), let fetchedArticles = decodedData.articles else { return }
+                DispatchQueue.main.async {
+                    completed(fetchedArticles)
+                }
                 if pagination {
-                    self.isPaginating = false
+                    self.isFetching = false
                 }
             } else {
                 print(error)

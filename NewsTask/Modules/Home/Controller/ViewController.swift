@@ -22,17 +22,18 @@ class ViewController: UIViewController {
         setTabBarAppearance()
     }
     
-    // check the logicals here
-    // Presenting view controller <UITabBarController: 0x151828e00> from detached view controller <NewsTask.ViewController: 0x150808900> is discouraged.
+    // ✅check the logicals here
+    // Presenting view controller <UITabBarController: 0x151828e00> from detached view controller is discouraged.
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setupTabBar()
+        present(tabBarView, animated: true)
     }
     
     // MARK: - SET UP
-    func setTabBarAppearance() {
+    private func setTabBarAppearance() {
         UITabBar.appearance().barTintColor = .systemBackground
         tabBarView.tabBar.tintColor = .label
+        setupTabBar()
     }
     
     struct Constants {
@@ -43,9 +44,8 @@ class ViewController: UIViewController {
 }
 
 private typealias TabBarSetup = ViewController
-
 extension TabBarSetup {
-    func setupTabBar() {
+    private func setupTabBar() {
         let firstTab = UINavigationController(rootViewController: HomeViewController())
         let secondTab = UINavigationController(rootViewController: MapViewController())
         let thirdTab = UINavigationController(rootViewController: HeadlinesViewController())
@@ -54,14 +54,15 @@ extension TabBarSetup {
         secondTab.title = Constants.secondTabTitle
         thirdTab.title = Constants.thirdTabTitle
         
-        tabBarView.setViewControllers([firstTab,secondTab,thirdTab], animated: false)
+        tabBarView.setViewControllers([firstTab, secondTab, thirdTab], animated: false)
         setTabItemSymbols()
         tabBarView.modalPresentationStyle = .fullScreen
         tabBarView.tabBar.backgroundColor = .clear
-        present(tabBarView, animated: true)
+        
+
     }
     
-    func setTabItemSymbols() {
+    private func setTabItemSymbols() {
         guard let items = tabBarView.tabBar.items else { return }
         let images = ["magnifyingglass", "map", "newspaper"]
         // use enumeration

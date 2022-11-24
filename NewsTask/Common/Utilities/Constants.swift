@@ -7,7 +7,7 @@
 
 
 class Constants {
-    static let apiKey = "4840391c15134375872168a829d71ee5"
+    static let apiKey = "28f23f31aad040fbbec856a66a26b3e0"
     static let baseAPI = "https://newsapi.org/v2"
 }
 // 4840391c15134375872168a829d71ee5

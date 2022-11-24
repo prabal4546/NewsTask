@@ -18,7 +18,7 @@ class MapViewController: UIViewController {
         setupView()
     }
     
-    func setupView() {
+    private func setupView() {
         title = Constants.navTitle
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true

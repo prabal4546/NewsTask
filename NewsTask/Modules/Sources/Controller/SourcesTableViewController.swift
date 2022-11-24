@@ -45,7 +45,38 @@ class SourcesTableViewController: UIViewController {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
+}
+
+private typealias TableViewDataSourceAndDelegates = SourcesTableViewController
+
+extension TableViewDataSourceAndDelegates: UITableViewDelegate, UITableViewDataSource {
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { sources.count }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SourcesConstants.cellIdentifier, for: indexPath) as? SourcesTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        let selectedSource = sources[indexPath.row]
+        guard let sourceName = selectedSource.name, let sourceDescription = selectedSource.description else { return UITableViewCell() }
+        cell.configure(title: sourceName, description: sourceDescription)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard let sourceName = sources[indexPath.row].id else { return }
+        self.navigationController?.pushViewController(SourceResultsTableViewController(keyword: keywordFromSearch, source: sourceName), animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
+}
+
+private typealias ConfigureView = SourcesTableViewController
+extension ConfigureView {
+    // extensions
     func setupView() {
         view.backgroundColor = .systemBackground
         title = "\(keywordFromSearch) in \(category)"
@@ -67,33 +98,5 @@ class SourcesTableViewController: UIViewController {
                 self.tableView.reloadData()
             }
         }
-    }
-}
-
-private typealias TableViewDataSourceAndDelegates = SourcesTableViewController
-
-extension TableViewDataSourceAndDelegates: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         sources.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "source-cell", for: indexPath) as? SourcesTableViewCell else {
-            return UITableViewCell()
-        }
-        let selectedSource = sources[indexPath.row]
-        cell.configure(title: selectedSource.name!, description: selectedSource.description!)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let sourceName = sources[indexPath.row].id
-        self.navigationController?.pushViewController(SourceResultsTableViewController(keyword: keywordFromSearch, source: sourceName!), animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-         200
     }
 }

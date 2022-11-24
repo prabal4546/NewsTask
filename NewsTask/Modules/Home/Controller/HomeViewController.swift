@@ -53,7 +53,7 @@ class HomeViewController: UIViewController {
     
     private var selectCategoryLabel:UILabel = {
         let label = UILabel()
-        label.text = Constants.selectCategory // constants
+        label.text = Constants.selectCategory // ✅constants
         return label
     }()
     
@@ -67,7 +67,7 @@ class HomeViewController: UIViewController {
     // identation
     // ✅ use ? _ : _
     @objc func categoryTapped() {
-        categoryTableView.isHidden ? animate(toggle: true, type: showDropDownBtn) : animate(toggle: false, type: showDropDownBtn)
+        animate(toggle: categoryTableView.isHidden)
     }
     
     // MARK: - View controller lifecycle methods
@@ -81,34 +81,28 @@ class HomeViewController: UIViewController {
         searchField.text = ""
         categoryTableView.reloadData()
     }
-    
-    func screenSetup() {
-        title = Constants.search
-        view.backgroundColor = .systemBackground
-        navigationController?.navigationBar.prefersLargeTitles = true
-    }
 }
 
 // Spacing
 //✅ typealias
 // constants
 private typealias TextFieldMethods = HomeViewController
-
 extension TextFieldMethods: UITextFieldDelegate {
     @objc func textFieldDidChange() {
         debouncer.renewInterval()
-        debouncer.handler = {
-            if let keyword = self.searchField.text {
+        debouncer.handler = { [weak self] in
+            if let keyword = self?.searchField.text {
                 // ✅make String+extension file under common folders - then make isEmpty() function (refer stackoverflow)
                 // ✅make a function which will tell u whether to present or push
-                self.presentSources(keyword: keyword)
+                self?.presentSources(keyword: keyword)
             }
         }
     }
     
-    func presentSources(keyword:String) {
-        if self.selectedCategory.isEmpty {
-            // constants
+    private func presentSources(keyword:String) {
+        //✅ dont use unneecessary self
+        if selectedCategory.isEmpty {
+            //✅ constants
             let alert = UIAlertController(title: Constants.alertTitle,
                                           message: Constants.alertMessage,
                                           preferredStyle: UIAlertController.Style.alert)
@@ -116,8 +110,9 @@ extension TextFieldMethods: UITextFieldDelegate {
             self.present(alert, animated: true, completion: nil)
             
             //use isNonEmpty()
-        } else if self.searchField.text?.isEmpty == false  {
-            self.navigationController?.pushViewController(SourcesTableViewController(category: self.selectedCategory, keywordFromSearch: keyword), animated: true)
+            // optional bool
+        } else if searchField.text?.isEmpty == false  {
+            self.navigationController?.pushViewController(SourcesTableViewController(category: selectedCategory, keywordFromSearch: keyword), animated: true)
         }
     }
     
@@ -156,7 +151,7 @@ extension TableViewDataSourceAndDelegates: UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedCategory = categoriesData[indexPath.row]
         showDropDownBtn.setTitle(selectedCategory, for: .normal)
-        animate(toggle: false, type: showDropDownBtn)
+        animate(toggle: false)
     }
     
     // One line
@@ -181,11 +176,13 @@ extension TableViewDataSourceAndDelegates: UITableViewDelegate, UITableViewDataS
 private typealias DropDownButton = HomeViewController
 
 extension DropDownButton {
-    func animate(toggle: Bool, type: UIButton) {
+    //✅ check parameters
+    private func animate(toggle: Bool) {
+        // TODO:
         // ✅same duplicate code - check it : if different then u can use switch case
         if toggle {
             UIView.animate(withDuration: 0.3) {
-                self.categoryTableView.isHidden = false
+                self.categoryTableView.isHidden = !toggle
             }
         } else {
             UIView.animate(withDuration: 0.3) {
@@ -195,51 +192,59 @@ extension DropDownButton {
     }
 }
 
+// MARK: - CONFIGURE VIEW
 private typealias ConfigureView = HomeViewController
 
 extension ConfigureView {
     // cnfureViews from viewDIdload -> setUpview (has serachBarSetup() and tableviewswtup())
     // extension
-    func configureViews() {
+    private func configureViews() {
         setupView()
-        setupConstraints()
-        screenSetup()
         searchBarSetup()
-        dropDownAction()
         tableViewSetup()
+        dropDownAction()
     }
     
-    func setupView() {
+    private func setupView() {
         view.addSubview(searchField)
         view.addSubview(categoryTableView)
         view.addSubview(showDropDownBtn)
+        
+        setupConstraints()
+        screenSetup()
     }
     
-    func searchBarSetup() {
+    private func searchBarSetup() {
         searchField.delegate = self
         searchField.addTarget(self, action: #selector(Self.textFieldDidChange), for: .editingChanged)
     }
     
-    func tableViewSetup() {
+    private func tableViewSetup() {
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
         categoryTableView.layer.cornerRadius = 5
         categoryTableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
     }
     
-    func dropDownAction() {
+    private func dropDownAction() {
         showDropDownBtn.addTarget(self, action: #selector(categoryTapped), for: .touchUpInside)
     }
     
+    private func screenSetup() {
+        title = Constants.search
+        view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
     //✅ [better to put this in separate extension
-    func setupConstraints() {
-        let p20:CGFloat = 20
-        let p40:CGFloat = 40
+    private func setupConstraints() {
+        let p20: CGFloat = 20
+        let p40: CGFloat = 40
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
             searchField.topAnchor.constraint(equalTo: safeArea.topAnchor,constant: p20),
-            searchField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor,constant:p40),
+            searchField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor,constant: p40),
             searchField.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor,constant: -p40)
         ])
         

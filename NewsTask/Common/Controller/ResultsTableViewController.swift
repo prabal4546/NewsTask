@@ -25,24 +25,7 @@ class ResultsTableViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func fetchData() {
-        networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&apiKey=\(Constants.apiKey)") { data in
-            self.articles = data
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-        
-        networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&category=\(keyword)&apiKey=\(Constants.apiKey)") { data in
-            self.articles = data
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
     // MARK: - View controller lifecycle methods
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -53,26 +36,12 @@ class ResultsTableViewController: UIViewController {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
-    
-    func setupView() {
-        view.backgroundColor = .systemBackground
-        title = "Results for \(keyword)"
-        view.addSubview(tableView)
-        setupTableView()
-    }
-    
-    func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
-    }
 }
 
 private typealias TableViewSetup = ResultsTableViewController
-
 extension TableViewSetup: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         articles.count
+        articles.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -94,9 +63,39 @@ extension TableViewSetup: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-         200
+        200
     }
 }
 
-
+private typealias ConfigureView = ResultsTableViewController
+extension ConfigureView {
+    private func setupView() {
+        view.backgroundColor = .systemBackground
+        title = keyword
+        view.addSubview(tableView)
+        setupTableView()
+    }
+    
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
+    }
+    private func fetchData() {
+        // Network Layer
+        networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&apiKey=\(Constants.apiKey)") { data in
+            self.articles = data
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+        networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&category=\(keyword)&apiKey=\(Constants.apiKey)") { data in
+            self.articles = data
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+}
 

@@ -8,12 +8,16 @@
 import UIKit
 
 class CustomTableViewCell: UITableViewCell {
+    struct CustomTableViewCellModel {
+        let title: String
+    }
+
     var imageURL:String?
     static let identifier = "CustomTableViewCell"
     static let fallbackName = "Not working"
     
     // MARK: - UI Elements
-    let articleImageView: UIImageView = {
+    private let articleImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -22,7 +26,7 @@ class CustomTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    let headlineLabel: UILabel = {
+    private let headlineLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -30,7 +34,7 @@ class CustomTableViewCell: UITableViewCell {
         return label
     }()
     
-    let sourceName: UILabel = {
+    private let sourceName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -39,7 +43,7 @@ class CustomTableViewCell: UITableViewCell {
         return label
     }()
     
-    let descLabel: UILabel = {
+    private let descLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -58,6 +62,8 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     // MARK: - Config
+    // replace with model
+    typealias Model = CustomTableViewCellModel
     public func configure(imgURL: URL, title: String, souceName: String?, description: String) {
         headlineLabel.text = title
         if let source = souceName {
@@ -75,7 +81,7 @@ class CustomTableViewCell: UITableViewCell {
         }
     }
     
-    func load(from url: URL, completion: @escaping (Data)->()) {
+    private func load(from url: URL, completion: @escaping (Data)->()) {
         DispatchQueue.global().async { [weak self] in
             if let data = try? Data(contentsOf: url) {
                 completion(data)
@@ -85,9 +91,8 @@ class CustomTableViewCell: UITableViewCell {
 }
 
 private typealias ConfigureView = CustomTableViewCell
-
 extension ConfigureView {
-    func setupView() {
+    private func setupView() {
         addSubview(articleImageView)
         addSubview(headlineLabel)
         addSubview(sourceName)
@@ -97,7 +102,7 @@ extension ConfigureView {
         setupConstraints()
     }
     
-    func addShadow() {
+    private func addShadow() {
         contentView.layer.cornerRadius = 10.0
         contentView.layer.masksToBounds = true
         layer.masksToBounds = false
@@ -107,30 +112,36 @@ extension ConfigureView {
         layer.shadowColor = UIColor.black.cgColor
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
+        let p5: CGFloat = 5
+        let p70: CGFloat = 70
+        let p2: CGFloat = 2
+        
         NSLayoutConstraint.activate([
-            articleImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
-            articleImageView.heightAnchor.constraint(equalToConstant: 70),
+            articleImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -p5),
+            articleImageView.heightAnchor.constraint(equalToConstant: p70),
             articleImageView.widthAnchor.constraint(equalTo: articleImageView.heightAnchor,multiplier: 16/9),
-            articleImageView.topAnchor.constraint(equalTo: topAnchor,constant: 5)
-        ])
-        NSLayoutConstraint.activate([
-            headlineLabel.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor,constant: -5),
-            headlineLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 5),
-            headlineLabel.topAnchor.constraint(equalTo: topAnchor,constant: 5)
-            
+            articleImageView.topAnchor.constraint(equalTo: topAnchor,constant: p5)
         ])
         
         NSLayoutConstraint.activate([
-            descLabel.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor,constant: 2),
+            headlineLabel.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor,constant: -p5),
+            headlineLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: p5),
+            headlineLabel.topAnchor.constraint(equalTo: topAnchor,constant: p5)
+        ])
+        
+        NSLayoutConstraint.activate([
+            descLabel.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor,constant: p2),
             descLabel.bottomAnchor.constraint(equalTo: sourceName.topAnchor),
-            descLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 5),
+            descLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: p5),
             descLabel.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor)
         ])
+        
         NSLayoutConstraint.activate([
-            sourceName.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
-            sourceName.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 5),
+            sourceName.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -p5),
+            sourceName.leadingAnchor.constraint(equalTo: leadingAnchor,constant: p5),
             sourceName.trailingAnchor.constraint(equalTo: articleImageView.leadingAnchor)
         ])
     }
 }
+

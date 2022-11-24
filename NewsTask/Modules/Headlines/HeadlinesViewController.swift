@@ -1,10 +1,3 @@
-//
-//  ThirdVC.swift
-//  NewsTask
-//
-//  Created by Prabaljit Walia on 15/11/22.
-//
-
 import UIKit
 import SafariServices
 
@@ -34,10 +27,10 @@ class HeadlinesViewController: UIViewController {
     // learn about this func - and its usage
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds // need of this ?? not recommenDED
+        tableView.frame = view.bounds 
     }
     
-    func fetchData() {
+    private func fetchData() {
         networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&pageSize=10&page=\(pageNum)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
             DispatchQueue.main.async {
@@ -46,34 +39,7 @@ class HeadlinesViewController: UIViewController {
         }
     }
     
-    // Nav Bar Items
-    @objc func nextTapped() {
-        pageNum += 1
-        networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&pageSize=10&page=\(pageNum)&apiKey=\(Constants.apiKey)") { data in
-            self.articles = data
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
-    @objc func prevTapped() {
-        pageNum -= 1
-        if pageNum == 0 {
-            let alert = UIAlertController(title: HeadlineConstants.alertTitle, message: HeadlineConstants.alertMessage, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: HeadlineConstants.alertActionTitle, style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        } else {
-            networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&pageSize=10&page=\(pageNum)&apiKey=\(Constants.apiKey)") { data in
-                self.articles = data
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
-        }
-    }
-    
-    func createSpinnerFooter() -> UIView {
+    private func createSpinnerFooter() -> UIView {
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
         let spinner = UIActivityIndicatorView()
         spinner.center = footerView.center
@@ -109,9 +75,7 @@ extension TableViewDataSourceAndDelegates: UITableViewDelegate, UITableViewDataS
         present(vc, animated: true)
     }
 
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-         200
-    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
 }
 
 // MARK: - SCROLL VIEW DELEGATE
@@ -121,10 +85,12 @@ extension ScrollViewDelegate:UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
         if position > (tableView.contentSize.height-100)-scrollView.frame.size.height {
-            guard !networkManager.isPaginating else { return }
+            guard !networkManager.isFetching else { return }
             self.tableView.tableFooterView = createSpinnerFooter()
             networkManager.fetch(pagination:true, url: "\(Constants.baseAPI)/top-headlines?country=in&pageSize=10&page=\(pageNum+1)&apiKey=\(Constants.apiKey)") { [weak self] result in
                 self?.pageNum += 1
+                
+                //use one async eventually drive it from network layer
                 DispatchQueue.main.async {
                     self?.tableView.tableFooterView = nil
                 }
@@ -158,5 +124,34 @@ extension ConfigureView {
         title = HeadlineConstants.navTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: HeadlineConstants.next, style: .plain, target: self, action: #selector(nextTapped))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: HeadlineConstants.prev, style: .plain, target: self, action: #selector(prevTapped))
+    }
+}
+
+private typealias NavigationBarItemActions = HeadlinesViewController
+extension NavigationBarItemActions {
+    @objc func nextTapped() {
+        pageNum += 1
+        networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&pageSize=10&page=\(pageNum)&apiKey=\(Constants.apiKey)") { data in
+            self.articles = data
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    @objc func prevTapped() {
+        pageNum -= 1
+        if pageNum == 0 {
+            let alert = UIAlertController(title: HeadlineConstants.alertTitle, message: HeadlineConstants.alertMessage, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: HeadlineConstants.alertActionTitle, style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            networkManager.fetch(url: "\(Constants.baseAPI)/top-headlines?country=in&pageSize=10&page=\(pageNum)&apiKey=\(Constants.apiKey)") { data in
+                self.articles = data
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
 }

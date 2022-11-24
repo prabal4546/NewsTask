@@ -26,7 +26,6 @@ class SourceResultsTableViewController: UIViewController {
     }
     
     // MARK: - View controller lifecycle methods
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -38,7 +37,7 @@ class SourceResultsTableViewController: UIViewController {
         tableView.frame = view.bounds
     }
     
-    func setupView() {
+    private func setupView() {
         title = "Results for \(keyword)"
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
@@ -47,7 +46,7 @@ class SourceResultsTableViewController: UIViewController {
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
     }
     
-    func fetchData() {
+    private func fetchData() {
         networkManager.fetch(url: "\(Constants.baseAPI)/everything?q=\(keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&sources=\(source)&apiKey=\(Constants.apiKey)") { data in
             self.articles = data
             DispatchQueue.main.async {
@@ -58,12 +57,9 @@ class SourceResultsTableViewController: UIViewController {
 }
 
 private typealias TableViewDataSourceAndDelegates = SourceResultsTableViewController
-
 extension TableViewDataSourceAndDelegates: UITableViewDelegate,UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         articles.count
-    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { articles.count  }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else { return UITableViewCell()
@@ -77,9 +73,9 @@ extension TableViewDataSourceAndDelegates: UITableViewDelegate,UITableViewDataSo
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedArticle = articles[indexPath.row]
-        guard let urlToArticle = selectedArticle.url else { return }
-        let vc = SFSafariViewController(url: URL(string:urlToArticle)!)
-        present(vc, animated: true)
+        guard let urlToArticle = selectedArticle.url, let url = URL(string: urlToArticle) else { return }
+        let safariView = SFSafariViewController(url: url)
+        present(safariView, animated: true)
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
