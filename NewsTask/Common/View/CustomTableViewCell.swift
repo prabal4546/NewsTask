@@ -59,7 +59,6 @@ class CustomTableViewCell: UITableViewCell {
     
     // MARK: - Config
     // replace with model
-    typealias Model = CustomTableViewCellModel
     public func configure(imgURL: URL, title: String, souceName: String?, description: String) {
         headlineLabel.text = title
         if let source = souceName {
