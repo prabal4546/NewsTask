@@ -8,10 +8,6 @@
 import UIKit
 
 class CustomTableViewCell: UITableViewCell {
-    struct CustomTableViewCellModel {
-        let title: String
-    }
-
     var imageURL:String?
     static let identifier = "CustomTableViewCell"
     static let fallbackName = "Not working"
