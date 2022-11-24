@@ -7,6 +7,13 @@
 
 import UIKit
 
+struct CustomCellModel {
+let imgURL: URL
+let title: String
+let souceName: String?
+let description: String
+}
+
 class CustomTableViewCell: UITableViewCell {
     var imageURL:String?
     static let identifier = "CustomTableViewCell"
@@ -58,17 +65,17 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     // MARK: - Config
-    // replace with model
-    public func configure(imgURL: URL, title: String, souceName: String?, description: String) {
-        headlineLabel.text = title
-        if let source = souceName {
+    // ✅replace with model
+    public func configure(model: CustomCellModel) {
+        headlineLabel.text = model.title
+        if let source = model.souceName {
             sourceName.text = source
         }
         else {
             sourceName.text = CustomTableViewCell.fallbackName
         }
-        descLabel.text = description
-        load(from: imgURL) { data in
+        descLabel.text = model.description
+        load(from: model.imgURL) { data in
             guard let cellImage = UIImage(data: data) else{return}
             DispatchQueue.main.async {
                 self.articleImageView.image = cellImage
